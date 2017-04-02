@@ -53,7 +53,7 @@ class CustomViewController<HeaderType: Header, PagerType: Pager>: UIViewControll
         return .zero
     }
     
-    func PageView(frameForHeader header: Header) -> CGRect {
+    func pageView(frameForHeader header: Header) -> CGRect {
         return CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 35)
     }
     
