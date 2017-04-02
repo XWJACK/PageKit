@@ -1,6 +1,6 @@
 //
 //  Page.h
-//  Page
+//  PageKit
 //
 //  Created by Jack on 4/2/17.
 //  Copyright © 2017 Jack. All rights reserved.
