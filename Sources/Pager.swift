@@ -256,10 +256,10 @@ open class Pager: UIScrollView, UIScrollViewDelegate, HeaderDelegate {
     final public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         isuserInteraction = true
     }
-    public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    final public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         
     }
-    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    final public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         
     }
     final public func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
