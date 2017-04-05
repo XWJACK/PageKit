@@ -7,21 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04879C801E94E94D006FC17F /* NormalIndicatorHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04879C7F1E94E94D006FC17F /* NormalIndicatorHeader.swift */; };
 		04A36BF91E909A4000A3B26F /* PageKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A36BF71E909A4000A3B26F /* PageKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04A36C181E909E9500A3B26F /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A36C171E909E9500A3B26F /* Header.swift */; };
 		04A36C1A1E909EA500A3B26F /* Pager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A36C191E909EA500A3B26F /* Pager.swift */; };
 		04A36C1C1E909EB700A3B26F /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A36C1B1E909EB700A3B26F /* PageView.swift */; };
-		04A36C341E90BF6400A3B26F /* NormalIndicatorHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A36C331E90BF6400A3B26F /* NormalIndicatorHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04879C7F1E94E94D006FC17F /* NormalIndicatorHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NormalIndicatorHeader.swift; path = Sources/NormalIndicatorHeader.swift; sourceTree = SOURCE_ROOT; };
 		04A36BC71E90990000A3B26F /* PageKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PageKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		04A36BF61E909A4000A3B26F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Sources/Info.plist; sourceTree = SOURCE_ROOT; };
 		04A36BF71E909A4000A3B26F /* PageKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PageKit.h; path = Sources/PageKit.h; sourceTree = SOURCE_ROOT; };
 		04A36C171E909E9500A3B26F /* Header.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
 		04A36C191E909EA500A3B26F /* Pager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pager.swift; sourceTree = "<group>"; };
 		04A36C1B1E909EB700A3B26F /* PageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
-		04A36C331E90BF6400A3B26F /* NormalIndicatorHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NormalIndicatorHeader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +100,7 @@
 		04A36C321E90BF6400A3B26F /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				04A36C331E90BF6400A3B26F /* NormalIndicatorHeader.swift */,
+				04879C7F1E94E94D006FC17F /* NormalIndicatorHeader.swift */,
 			);
 			name = Headers;
 			path = Features/Headers;
@@ -187,8 +187,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04879C801E94E94D006FC17F /* NormalIndicatorHeader.swift in Sources */,
 				04A36C181E909E9500A3B26F /* Header.swift in Sources */,
-				04A36C341E90BF6400A3B26F /* NormalIndicatorHeader.swift in Sources */,
 				04A36C1C1E909EB700A3B26F /* PageView.swift in Sources */,
 				04A36C1A1E909EA500A3B26F /* Pager.swift in Sources */,
 			);
