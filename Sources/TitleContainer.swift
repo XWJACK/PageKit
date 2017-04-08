@@ -1,5 +1,5 @@
 //
-//  Header.swift
+//  TitleContainer.swift
 //  PageKit
 //
 //  Created by Jack on 4/2/17.
@@ -9,7 +9,7 @@
 import UIKit
 
 /// HeaderDataSources
-@objc public protocol HeaderDataSources {
+@objc public protocol TitleContainerDataSources {
     
     /// Asks for title
     ///
@@ -17,7 +17,7 @@ import UIKit
     ///   - header: Header
     ///   - index: Index
     /// - Returns: UIControl like UIButton
-    func header(_ header: Header, titleForIndexAt index: Int) -> UIControl
+    func header(_ header: TitleContainer, titleForIndexAt index: Int) -> UIView
     
     /// Asks for title size, it will invocate sizeToFit for each title if not implement this.
     ///
@@ -26,7 +26,7 @@ import UIKit
     ///   - title: UIControl
     ///   - index: Index
     /// - Returns: Size for title
-    @objc optional func header(_ header: Header, with title: UIControl, sizeForIndexAt index: Int) -> CGSize
+    @objc optional func header(_ header: TitleContainer, with title: UIControl, sizeForIndexAt index: Int) -> CGSize
     
     /// Asks for indicator size
     ///
@@ -34,7 +34,7 @@ import UIKit
     ///   - header: Header
     ///   - indicator: Indicator instanse
     /// - Returns: Size for indicator
-    @objc optional func header(_ header: Header, sizeForIndicator indicator: UIView, underTitle: UIControl, with index: Int) -> CGSize
+    @objc optional func header(_ header: TitleContainer, sizeForIndicator indicator: UIView, underTitle: UIControl, with index: Int) -> CGSize
     
     /// Tells the data source to return the number of pages and titles
     ///
@@ -43,33 +43,19 @@ import UIKit
 }
 
 /// Delegate to Header, know whitch index has been selected
-protocol HeaderDelegate: class {
+protocol TitleContainerDelegate: class {
     /// New index has been selected
     ///
     /// - parameter index: New Index
-    func select(at index: Int)
+    func scroll(to index: Int, animated: Bool)
 }
 
-/// Normal PageView Header
-open class Header: UIScrollView, UIScrollViewDelegate, PagerDelegate {
+open class TitleContainer: Container {
     
     //MARK: - open property
     
-    final public override var delegate: UIScrollViewDelegate? {
-        get { return self }
-        set { if newValue === self { super.delegate = newValue }}
-    }
-    
     /// header data source, you should not assignment this value directly. Instead assignment in `PageView` dataSources
-    open internal(set) weak var dataSources: HeaderDataSources?
-    
-    /// You should not assignment this value directly. Instead assignment in `PageView` defaultIndex
-    /// to keep synchronize with `Header` defaultIndex.
-    open internal(set) var defaultIndex: Int = 0
-    
-    /// You should not assignment this value directly. Instead assignment in `PageView` currentIndex
-    /// to keep synchronize with `Header` currentIndex.
-    open internal(set) var currentIndex: Int = 0
+    open internal(set) weak var dataSources: TitleContainerDataSources?
     
     /// Indicator View
     open var indicator = UIView()
@@ -84,7 +70,7 @@ open class Header: UIScrollView, UIScrollViewDelegate, PagerDelegate {
     //MARK: - internal property
     
     /// header delegate
-    weak var headerDelegate: HeaderDelegate?
+    weak var headerDelegate: TitleContainerDelegate?
     
     //MARK: - private property
     
@@ -150,7 +136,7 @@ open class Header: UIScrollView, UIScrollViewDelegate, PagerDelegate {
             totalWidth += titleSize.width
         }
         contentSize.width = totalWidth
-        headerDelegate?.select(at: defaultIndex)
+        headerDelegate?.scroll(to: defaultIndex, animated: true)
         pageWillSwitch(from: currentIndex, to: defaultIndex, completed: 1)
         pageDidEndSwitch(from: currentIndex, to: defaultIndex)
     }
@@ -177,23 +163,23 @@ open class Header: UIScrollView, UIScrollViewDelegate, PagerDelegate {
     ///
     /// - Parameter sender: UIControl
     @objc private func select(sender: UIControl) {
-        headerDelegate?.select(at: sender.tag - defaultTag)
+        headerDelegate?.scroll(to: sender.tag - defaultTag, animated: true)
     }
     
     //MARK: - internal PagerDelegate
     
-    final func pageWillSwitch(from fromIndex: Int, to nextIndex: Int, completed percent: CGFloat) {
+    final public func pageWillSwitch(from fromIndex: Int, to nextIndex: Int, completed percent: CGFloat) {
         guard isValid(index: fromIndex) else { return }
         pageWillSwitch(from: titles[fromIndex], fromIndex: fromIndex,
                        to: isValid(index: nextIndex) ? titles[nextIndex] : nil, nextIndex: nextIndex,
                        completed: percent)
     }
     
-    final func page(to index: Int) {
+    final public func page(to index: Int) {
         currentIndex = index
     }
     
-    final func pageDidEndSwitch(from fromIndex: Int, to nextIndex: Int) {
+    final public func pageDidEndSwitch(from fromIndex: Int, to nextIndex: Int) {
         guard isValid(index: fromIndex) && isValid(index: nextIndex) else { return }
         pageDidEndSwitch(from: titles[fromIndex], fromIndex: fromIndex,
                          to: titles[nextIndex], nextIndex: nextIndex)

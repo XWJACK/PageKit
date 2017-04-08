@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class NormalIndicatorHeader: Header {
+open class NormalIndicatorHeader: TitleContainer {
     override open func pageWillSwitch(from fromTitle: UIControl, fromIndex: Int,
                                  to nextTitle: UIControl?, nextIndex: Int,
                                  completed percent: CGFloat) {

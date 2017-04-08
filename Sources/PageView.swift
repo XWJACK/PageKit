@@ -9,7 +9,7 @@
 import UIKit
 
 /// PageViewDataSources
-@objc public protocol PageViewDataSources: HeaderDataSources, PagerDataSources {}
+public protocol PageViewDataSources: TitleContainerDataSources, PagerDataSources {}
 
 /// PageViewDelegate
 @objc public protocol PageViewDelegate: class {
@@ -18,7 +18,7 @@ import UIKit
     ///
     /// - Parameter header: Header
     /// - Returns: frame for header
-    func pageView(frameForHeader header: Header) -> CGRect
+    func pageView(frameForHeader header: TitleContainer) -> CGRect
     
     /// set frame for separator
     ///
@@ -30,17 +30,17 @@ import UIKit
     ///
     /// - Parameter pager: Pager
     /// - Returns: frame for pager
-    @objc optional func pageView(frameForPager pager: Pager) -> CGRect
+    @objc optional func pageView(frameForPageContainer pager: PageContainer) -> CGRect
 }
 
 /// Generatic PageView
-open class PageView<HeaderType: Header, PagerType: Pager>: UIView {
+open class PageView<TitleContainerType: TitleContainer, PageContainerType: PageContainer>: UIView {
     
     /// header
-    open let header: HeaderType = HeaderType()
+    open let header: TitleContainerType = TitleContainerType()
     
-    /// pager
-    open let pager: PagerType = PagerType()
+    /// PageContainer
+    open let pageContainer: PageContainerType = PageContainerType()
     
     /// delegate for PageView, set style for PageView
     open weak var delegate: PageViewDelegate?
@@ -49,14 +49,14 @@ open class PageView<HeaderType: Header, PagerType: Pager>: UIView {
     open weak var dataSources: PageViewDataSources? {
         didSet {
             header.dataSources = dataSources
-            pager.dataSources = dataSources
+            pageContainer.dataSources = dataSources
         }
     }
     
     open var defaultIndex: Int = 0 {
         didSet {
             header.defaultIndex = defaultIndex
-            pager.defaultIndex = defaultIndex
+            pageContainer.defaultIndex = defaultIndex
         }
     }
     
@@ -66,17 +66,17 @@ open class PageView<HeaderType: Header, PagerType: Pager>: UIView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         
-        header.headerDelegate = pager
-        pager.pagerDelegate = header
+        header.headerDelegate = pageContainer
+        pageContainer.pageContainerDelegate = header
         
         addSubview(header)
-        addSubview(pager)
+        addSubview(pageContainer)
         addSubview(separatorView)
     }
     
     open func reloadPageView() {
         layoutIfNeeded()
-        pager.reloadPages()
+        pageContainer.reloadPages()
         header.reloadTitles()
     }
     
@@ -85,7 +85,7 @@ open class PageView<HeaderType: Header, PagerType: Pager>: UIView {
     /// - Parameter index: index
     open func reloadPageView(by index: Int) {
         layoutIfNeeded()
-        pager.reloadPage(by: index)
+        pageContainer.reloadPage(by: index)
         header.reloadTitle(by: index)
     }
     
@@ -93,11 +93,11 @@ open class PageView<HeaderType: Header, PagerType: Pager>: UIView {
         
         if let frame = delegate?.pageView(frameForHeader: header) { header.frame = frame }
         if let frame = delegate?.pageView?(frameForSeparator: separatorView) { separatorView.frame = frame }
-        if let frame = delegate?.pageView?(frameForPager: pager) { pager.frame = frame }
-        else { pager.frame = CGRect(x: 0,
-                                    y: header.frame.height + separatorView.frame.height,
-                                    width: frame.width,
-                                    height: frame.height - header.frame.height - separatorView.frame.height) }
+        if let frame = delegate?.pageView?(frameForPageContainer: pageContainer) { pageContainer.frame = frame }
+        else { pageContainer.frame = CGRect(x: 0,
+                                            y: header.frame.height + separatorView.frame.height,
+                                            width: frame.width,
+                                            height: frame.height - header.frame.height - separatorView.frame.height) }
         
         super.layoutSubviews()
     }
