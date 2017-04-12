@@ -118,9 +118,6 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     
     /// All SubPages
     internal var pages: [Page?] = []
-//    internal var registedPages: [String: Page.Type] = [:]
-//    internal var reuseablePages: [String: Page] = [:]
-//    internal var visiblePages: [String: Page] = [:]
     
     /// Page will switch to next index
     private var nextIndex: Int = .begin
@@ -157,6 +154,7 @@ open class Container: UIScrollView, UIScrollViewDelegate {
         currentIndex = .begin
         nextIndex = defaultIndex
         pages.filter{ $0 != nil }.forEach{ removePage($0!) }
+        pages = Array(repeating: nil, count: dataSource?.numberOfPages() ?? 0)
         reloadPage(byIndex: nextIndex)
     }
     
@@ -164,13 +162,8 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     ///
     /// - Parameter index: Index
     public final func reloadPage(byIndex index: Int) {
-        guard let dataSource = dataSource, isValid(index: index) else { return }
-        
-        let page = dataSource.container(self, pageForIndexAt: index)
-        if let oldPage = pages[index] { removePage(oldPage) }
-        addPage(page)
-        pages[index] = page
-        setContentOffset(byIndex: index, animated: false)
+        guard dataSource != nil, isValid(index: index) else { return }
+        dynamicPage(byIndex: index)
     }
     
     /// Add page to Container
@@ -201,34 +194,9 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     }
     
     
-    
-    
-    
-    
+
     public final func scroll(toIndex index: Int, animated: Bool) {
         setContentOffset(byIndex: index, animated: animated)
-    }
-    
-//    public final func register(_ pageClass: Page.Type, forPageReuseIndentifier identifier: String) {
-//        registedPages[identifier] = pageClass
-//    }
-//    
-//    private func enqueue(withIdentifier indentifier: String, page: Page) {
-//        reuseablePages[indentifier] = page
-//    }
-//    
-//    public final func dequeueReusablePage(withIdentifier identifier: String) -> Page? {
-//        return reuseablePages[identifier] ?? registedPages[identifier]?.init()
-//    }
-    
-    //MARK: - private function
-    
-    /// Init page by number
-    ///
-    /// - Parameter number: total of pages
-    private func initPages(by number: Int) {
-//        pages.filter{ $0 != nil }.forEach{ parsePage(by: $0!.pageType).removeFromSuperview() }
-//        pages = Array(repeating: nil, count: number)
     }
     
 //    private func resizePages() {
@@ -252,13 +220,14 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     ///
     /// - parameter index: An index has been selected
     private func dynamicPage(byIndex index: Int) {
-//        guard isValid(index: index) else { return }
+        guard pages[index] == nil else { return }
         
-//        guard isValid(index: index) &&
-//            pages[index] == nil else { return }
-//        
-//        guard let controller = dataSources?.page(self, pageForIndexAt: index) else { return }
-//        addSubview(parsePage(by: controller.pageType))
+        let page = dataSource!.container(self, pageForIndexAt: index)
+        if let oldPage = pages[index] { removePage(oldPage) }
+        addPage(page)
+        pages[index] = page
+        setContentOffset(byIndex: index, animated: false)
+        
 //        pages[index] = controller
 //        updatePage(parsePage(by: controller.pageType), at: index)
     }
