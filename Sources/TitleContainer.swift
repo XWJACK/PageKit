@@ -9,24 +9,7 @@
 import UIKit
 
 /// HeaderDataSources
-@objc public protocol TitleContainerDataSources {
-    
-    /// Asks for title
-    ///
-    /// - Parameters:
-    ///   - header: Header
-    ///   - index: Index
-    /// - Returns: UIControl like UIButton
-    func header(_ header: TitleContainer, titleForIndexAt index: Int) -> UIView
-    
-    /// Asks for title size, it will invocate sizeToFit for each title if not implement this.
-    ///
-    /// - Parameters:
-    ///   - header: Header
-    ///   - title: UIControl
-    ///   - index: Index
-    /// - Returns: Size for title
-    @objc optional func header(_ header: TitleContainer, with title: UIControl, sizeForIndexAt index: Int) -> CGSize
+public protocol TitleContainerDataSources: ContainerDataSource {
     
     /// Asks for indicator size
     ///
@@ -34,14 +17,23 @@ import UIKit
     ///   - header: Header
     ///   - indicator: Indicator instanse
     /// - Returns: Size for indicator
-    @objc optional func header(_ header: TitleContainer, sizeForIndicator indicator: UIView, underTitle: UIControl, with index: Int) -> CGSize
-    
-    /// Tells the data source to return the number of pages and titles
-    ///
-    /// - returns: The number of pages and titles
-    func numberOfPageViews() -> Int
+    func title(_ titleContainer: TitleContainer,
+               sizeForIndicator indicator: UIView,
+               underTitle title: Page,
+               withIndex index: Int) -> CGSize
 }
 
+extension TitleContainerDataSources {
+    func title(_ titleContainer: TitleContainer,
+               sizeForIndicator indicator: UIView,
+               underTitle title: Page,
+               withIndex index: Int) -> CGSize {
+        switch title.liveViewType {
+        case .view(let view): return view.frame.size
+        case .viewController(let controller): return controller.view.frame.size
+        }
+    }
+}
 /// Delegate to Header, know whitch index has been selected
 protocol TitleContainerDelegate: class {
     /// New index has been selected
@@ -74,9 +66,6 @@ open class TitleContainer: Container {
     
     //MARK: - private property
     
-    /// All titles
-    private var titles: [UIControl] = []
-    
     //MARK: - public function
     
     public override init(frame: CGRect) {
@@ -95,15 +84,7 @@ open class TitleContainer: Container {
         fatalError("init(coder:) has not been implemented")
     }
     
-    /// is Valid index for title
-    ///
-    /// - Parameter index: Index
-    /// - Returns: Bool
-    final public func isValid(index: Int) -> Bool {
-        return titles.count > index && index >= 0
-    }
-    
-    final public func offSet(by index: Int) -> CGFloat {
+    public final func offSet(by index: Int) -> CGFloat {
         return isValid(index: index) ? titles.filter{ $0.tag < defaultTag + index }.reduce(CGFloat(0), {total, title in total + title.frame.width }) :
             index == titles.count ? titles.reduce(CGFloat(0), {total, title in total + title.frame.width }) : 0
     }
@@ -117,7 +98,7 @@ open class TitleContainer: Container {
         contentSize.width = 0
         
         guard let dataSources = dataSources else { return }
-        let number = dataSources.numberOfPageViews()
+        let number = dataSources.numberOfPages()
         guard number > 0 else { return }
         var totalWidth: CGFloat = 0
         for index in 0..<number {
@@ -139,16 +120,6 @@ open class TitleContainer: Container {
         headerDelegate?.scroll(to: defaultIndex, animated: true)
         pageWillSwitch(from: currentIndex, to: defaultIndex, completed: 1)
         pageDidEndSwitch(from: currentIndex, to: defaultIndex)
-    }
-    
-    /// reload title by index
-    ///
-    /// - Parameter index: Index
-    final func reloadTitle(by index: Int) {
-        guard isValid(index: index) else { assertionFailure("Invalid Index"); return }
-        guard let title = dataSources?.header(self, titleForIndexAt: index) else { return }
-        titles[index].removeFromSuperview()
-        titles[index] = title
     }
     
     //MARK: - private function
@@ -198,6 +169,11 @@ open class TitleContainer: Container {
                                to nextTitle: UIControl, nextIndex: Int) {
         fromTitle.isSelected = false
         nextTitle.isSelected = true
+        
+        /// 默认滚动到中间
+        let offset = offSet(by: nextIndex) + nextTitle.frame.width / 2 - frame.width / 2
+        guard offset > 0 && offset < contentSize.width - frame.width else { return }
+        setContentOffset(CGPoint(x: offset, y: 0), animated: true)
     }
     
     /// Page will switch from index to next index with percent, Default do nothing

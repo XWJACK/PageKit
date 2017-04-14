@@ -22,3 +22,9 @@ public extension Int {
 //        return result
 //    }
 }
+
+extension Array {
+    func enumIndex(_ block: (Index, Element) -> ()) {
+        for (index, element) in self.enumerated() { block(index, element) }
+    }
+}

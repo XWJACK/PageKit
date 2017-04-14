@@ -19,8 +19,8 @@ public protocol ContainerDataSource: PageKitDataSource {
     ///   - container: PageContainer
     ///   - index: Index
     /// - Returns: Size for Page
-    func container(_ container: Container, edgeInsetForIndexAt index: Int) -> UIEdgeInsets
-    
+    func container(_ container: Container, sizeForIndexAt index: Int) -> CGSize
+
     /// Asks for PageRepresentation, you should not retain PageRepresentation.
     ///
     /// - Parameters:
@@ -31,7 +31,9 @@ public protocol ContainerDataSource: PageKitDataSource {
 }
 
 extension ContainerDataSource {
-    func container(_ container: Container, sizeForIndexAt index: Int) -> CGSize { return container.frame.size }
+    func container(_ container: Container, sizeForIndexAt index: Int) -> CGSize {
+        return container.frame.size
+    }
 }
 
 // MARK: - blow to Modify
@@ -80,12 +82,7 @@ open class Container: UIScrollView, UIScrollViewDelegate {
         set { if newValue != nil && newValue!.isKind(of: Container.self) { super.delegate = newValue } }
     }
     
-    /// You should not assignment this value directly. Instead assignment in `PageView` defaultIndex
-    /// to keep synchronize with `Header` defaultIndex.
     open var defaultIndex: Int = 0
-    
-    /// You should not assignment this value directly. Instead assignment in `PageView` currentIndex
-    /// to keep synchronize with `Header` currentIndex.
     open var currentIndex: Int = .begin
     
     /// Is auto set page size same as PageContainer
@@ -101,13 +98,11 @@ open class Container: UIScrollView, UIScrollViewDelegate {
         }
     }
     
-//    open override var frame: CGRect {
-//        didSet {
-//            setContentOffset(by: currentIndex, animated: false)
-//            
-//            for (index, controller) in pages.enumerated() where controller != nil { updatePage(controller!.view, at: index) }
-//        }
-//    }
+    open override var frame: CGRect {
+        didSet {
+            pages.enumIndex{ index, page in if let page = page { layoutPages(page, withIndex: index) } }
+        }
+    }
     
     //MARK: - internal property
     
@@ -141,6 +136,8 @@ open class Container: UIScrollView, UIScrollViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - function public final
+    
     /// Is valid index for page
     ///
     /// - Parameter index: Index
@@ -153,7 +150,7 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     public final func reloadPages() {
         currentIndex = .begin
         nextIndex = defaultIndex
-        pages.filter{ $0 != nil }.forEach{ removePage($0!) }
+        pages.filter{ $0 != nil }.forEach{ remove(page: $0!) }
         pages = Array(repeating: nil, count: dataSource?.numberOfPages() ?? 0)
         reloadPage(byIndex: nextIndex)
     }
@@ -166,10 +163,23 @@ open class Container: UIScrollView, UIScrollViewDelegate {
         dynamicPage(byIndex: index)
     }
     
+    /// Parse page to UIView
+    ///
+    /// - Parameter page: Page
+    /// - Returns: UIView
+    public final func parse(page: Page) -> UIView {
+        switch page.liveViewType {
+        case .view(let view): return view
+        case .viewController(let controller): return controller.view
+        }
+    }
+    
+    //MARK: - function private
+    
     /// Add page to Container
     ///
     /// - Parameter page: Page
-    private func addPage(_ page: Page) {
+    private func add(page: Page) {
         switch page.liveViewType {
         case .view(let view):
             contentView.addSubview(view)
@@ -182,7 +192,7 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     /// Remove page from Container
     ///
     /// - Parameter page: Page
-    private func removePage(_ page: Page) {
+    private func remove(page: Page) {
         switch page.liveViewType {
         case .view(let view):
             view.removeFromSuperview()
@@ -193,28 +203,28 @@ open class Container: UIScrollView, UIScrollViewDelegate {
         }
     }
     
-    
-
-    public final func scroll(toIndex index: Int, animated: Bool) {
+    /// Switch to index with animate
+    ///
+    /// - Parameters:
+    ///   - index: Next index
+    ///   - animated: Animate
+    public final func `switch`(toIndex index: Int, animated: Bool) {
         setContentOffset(byIndex: index, animated: animated)
     }
     
-//    private func resizePages() {
-//        guard let dataSource = dataSource else { return }
-//        let number = dataSource.numberOfPages()
-//        
-//        if isPagingEnabled {
-//            contentSize = CGSize(width: frame.width * number.cgfloat,
-//                                 height: frame.height)
-//        } else {
-//            var width: CGFloat = 0
-//            for index in 0..<number {
-//                width += dataSource.container(self, sizeForIndexAt: index).width
-//            }
-//            contentSize = CGSize(width: width + (number + 1).cgfloat * spacing,
-//                                 height: frame.height)
-//        }
-//    }
+    //MARK: - function open
+    
+    /// Subclasses can override this method as needed to perform more precise layout of their pages
+    ///
+    /// - Parameters:
+    ///   - page: Page
+    ///   - index: Index
+    open func layoutPages(_ page: Page, withIndex index: Int) {
+        let pageSize = dataSource?.container(self, sizeForIndexAt: index) ?? .zero
+        let originX = CGFloat(index) * (isAutoresizeEnable ? frame.size.width : pageSize.width) + CGFloat(index + 1) * spacing
+        parse(page: page).frame = CGRect(origin: CGPoint(x: originX, y: 0),
+                                         size: pageSize)
+    }
     
     /// Dynamic Create Page
     ///
@@ -223,30 +233,13 @@ open class Container: UIScrollView, UIScrollViewDelegate {
         guard pages[index] == nil else { return }
         
         let page = dataSource!.container(self, pageForIndexAt: index)
-        if let oldPage = pages[index] { removePage(oldPage) }
-        addPage(page)
+        if let oldPage = pages[index] { remove(page: oldPage) }
+        add(page: page)
         pages[index] = page
         setContentOffset(byIndex: index, animated: false)
         
 //        pages[index] = controller
 //        updatePage(parsePage(by: controller.pageType), at: index)
-    }
-    
-    /// Set SubView Size and origin
-    ///
-    /// - parameter view:  whitch view will been setted
-    /// - parameter index: Index
-    private func updatePage(_ view: UIView, at index: Int) {
-//        let dataSourcesSize = dataSources?.page(self, sizeForIndexAt: index)
-//        let size: CGSize = autoresize ? frame.size : dataSourcesSize ?? .zero
-//        let origin: CGPoint = autoresize ?
-//            CGPoint(x: CGFloat(index) * frame.size.width, y: 0) :
-//            {
-//                guard let size = dataSourcesSize else { return .zero }
-//                return CGPoint(x: (frame.size.width - size.width) / 2 + CGFloat(index) * frame.size.width,
-//                               y: (frame.size.height - size.height) / 2)
-//            }()
-//        view.frame = CGRect(origin: origin, size: size)
     }
     
     /// Set Pager's ContentOffset
@@ -352,9 +345,9 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     ///   - toController: next ViewController
     ///   - toIndex: next index
     ///   - percent: completed percent, The value of this property is a floating-point number in the range 0.0 to 1.0
-    open func pageContainerWillSwitch(from fromPage: Page?, fromIndex: Int,
-                                      to nextPage: Page?, nextIndex: Int,
-                                      completed percent: Double) {
+    open func containerSwitching(from fromPage: Page?, fromIndex: Int,
+                                 to nextPage: Page?, nextIndex: Int,
+                                 completed percent: Double) {
         
     }
     
@@ -365,8 +358,8 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     ///   - fromIndex: current index
     ///   - toController: next ViewController
     ///   - toIndex: next index
-    open func pageContainerDidEndSwitch(from fromPage: Page?, fromIndex: Int,
-                                        to nextPage: Page?, nextIndex: Int) {
+    open func containerDidEndSwitch(from fromPage: Page?, fromIndex: Int,
+                                    to nextPage: Page?, nextIndex: Int) {
         
     }
     
@@ -374,7 +367,7 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     ///
     /// - Parameter index: next index
     /// - Returns: load ViewController if true or not load.
-    open func pageContainerWillLoadNextPage(with index: Int, completed percent: CGFloat) -> Bool {
+    open func containerWillLoadNextPage(with index: Int, completed percent: CGFloat) -> Bool {
         return true
     }
 }
