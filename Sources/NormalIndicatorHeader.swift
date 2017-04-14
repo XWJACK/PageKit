@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+/*
 open class NormalIndicatorHeader: TitleContainer {
     override open func pageWillSwitch(from fromTitle: UIControl, fromIndex: Int,
                                  to nextTitle: UIControl?, nextIndex: Int,
@@ -27,3 +27,4 @@ open class NormalIndicatorHeader: TitleContainer {
                                  height: nextSize.height == 0 ? fromSize.height : nextSize.height)
     }
 }
+*/

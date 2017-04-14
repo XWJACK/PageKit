@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+/*
 /// PageViewDataSources
 public protocol PageViewDataSources: TitleContainerDataSources, PagerDataSources {}
 
@@ -106,3 +106,4 @@ open class PageView<TitleContainerType: TitleContainer, PageContainerType: PageC
         fatalError("init(coder:) has not been implemented")
     }
 }
+*/
