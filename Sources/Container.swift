@@ -8,7 +8,7 @@
 
 import UIKit
 
-public typealias Page = LiveViewRepresentable
+public typealias Page = PageRepresentable
 
 /// Data Sources for PageContainer
 public protocol ContainerDataSource: class {
@@ -103,12 +103,6 @@ open class Container: UIScrollView, UIScrollViewDelegate {
 //        }
 //    }
     
-    open override var frame: CGRect {
-        didSet {
-            contentSize = setContentSize()
-        }
-    }
-    
     //MARK: - internal property
     
     /// Page will switch to next index
@@ -146,11 +140,26 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     open func reloadPage() {
         currentIndex = .begin
         nextIndex = defaultIndex
+        contentSize = getContentSize()
     }
     
-    open func setContentSize() -> CGSize {
+    /// Set contentSize
+    ///
+    /// - Returns: Size for content
+    open func getContentSize() -> CGSize {
         let number = dataSource?.numberOfPages() ?? 0
         return CGSize(width: frame.width * number.cgfloat, height: frame.height)
+    }
+    
+    /// Override this function to custom index position
+    ///
+    /// - Returns: Current index for Container
+    open func getCurrentIndex() -> Int {
+        return Int(contentOffset.x / frame.width)
+    }
+    
+    open func getCurrentPageOrigin(by index: Int) -> CGPoint {
+        return CGPoint(x: index.cgfloat * frame.width, y: 0)
     }
     /// Reload page by index
     ///
@@ -209,10 +218,7 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     ///   - index: Next index
     ///   - animated: Animate
     open func switching(toIndex index: Int, animated: Bool) {
-        var newFrame: CGPoint = .zero
-        newFrame.x = frame.width * CGFloat(index)
-        newFrame.y = 0
-        setContentOffset(newFrame, animated: animated)
+        setContentOffset(getCurrentPageOrigin(by: index), animated: animated)
     }
     
     /// Subclasses can override this method as needed to perform more precise layout of their pages
@@ -242,23 +248,16 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     /// Scroll did end scroll
     /// now, currentIndex is nextIndex
     private func endScroll() {
-//        let oldCurrentIndex = currentIndex
-//        nextIndex = Int(contentOffset.x / frame.width)
-//        currentIndex = nextIndex
-//        
-//        guard isValid(index: oldCurrentIndex) else { return }
-//        containerDidEndSwitch(from: pages[oldCurrentIndex], fromIndex: oldCurrentIndex,
-//                         to: isValid(index: nextIndex) ? pages[nextIndex] : nil, nextIndex: nextIndex)
-//        pageContainerDelegate?.pageDidEndSwitch(from: oldCurrentIndex, to: nextIndex)
-        
+        let oldCurrentIndex = currentIndex
+        let newCurrentIndex = getCurrentIndex()
+        containerDidEndSwitching(from: oldCurrentIndex, to: newCurrentIndex)
     }
-    
+
     // MARK: - public final UIScrollViewDelegate
     
     final public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         
-        print("scrollViewDidScroll")
 //        let offSet = contentOffset.x / frame.width
 //        /// stepNextIndex is only use for user interaction
 //        var stepNextIndex = 0
@@ -293,7 +292,6 @@ open class Container: UIScrollView, UIScrollViewDelegate {
 //    }
     
     open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        print("scrollViewWillBeginDragging")
     }
     
     open func scrollViewWillEndDragging(_ scrollView: UIScrollView,
@@ -304,11 +302,9 @@ open class Container: UIScrollView, UIScrollViewDelegate {
 //        for index in 0...index(by: targetContentOffset.pointee.x) {
 //            offSet = dataSources?.page(self, sizeForIndexAt: index)
 //        }
-        print("scrollViewWillEndDragging")
     }
     
     open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        print("scrollViewDidEndDragging")
     }
     
     
@@ -316,16 +312,16 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     
     
     final public func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-        print("scrollViewWillBeginDecelerating")
-    }
-    /// only useful for user scroll by finger: Scroll page
-    final public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        print("scrollViewDidEndDecelerating")
     }
     
-    /// only useful for setContentOffset with animated is true: select title
-    final public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        print("scrollViewDidEndScrollingAnimation")
+    /// only useful for user scroll by finger: Scroll page
+    public final func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        endScroll()
+    }
+    
+    /// only useful for `setContentOffset` or `scrollRectToVisible` with animations are requested.
+    public final func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        endScroll()
     }
     
     //MARK: - open custom override

@@ -8,28 +8,53 @@
 
 import UIKit
 
-/// Live view type
+// MARK: - PageType
+
+/// Page type
 ///
 /// - view: UIView
 /// - viewController: UIViewController
-public enum LiveViewType {
+public enum PageType {
     case view(UIView)
     case viewController(UIViewController)
 }
 
-/// Represent a live view
-public protocol LiveViewRepresentable: NSObjectProtocol {
-    var liveViewType: LiveViewType { get }
+// MARK: - PageReusable
+
+/// Represent a identifier for page
+public protocol PageReusable {
+    
+    /// Identifier for reusing page
+    var reuseIdentifier: String { get }
+    
+    /// Identifier for reusing page
+    static var reuseIdentifier: String { get }
+}
+
+// MARK: - PageRepresentable
+
+/// Represent a Page
+public protocol PageRepresentable: PageReusable, NSObjectProtocol {
+    
+    /// Define page type
+    var pageType: PageType { get }
     init()
 }
 
-// MARK: - Extension UIView LiveViewRepresentable
-extension UIView: LiveViewRepresentable {
-    public var liveViewType: LiveViewType { return .view(self) }
+extension UIView: PageRepresentable {
+    
+    public var pageType: PageType { return .view(self) }
+    
+    public var reuseIdentifier: String { return String(describing: type(of: self)) }
+    
+    public static var reuseIdentifier: String { return String(describing: self) }
 }
 
-// MARK: - Extension UIViewController LiveViewRepresentable
-extension UIViewController: LiveViewRepresentable {
-    public var liveViewType: LiveViewType { return .viewController(self) }
+extension UIViewController: PageRepresentable {
+    
+    public var pageType: PageType { return .viewController(self) }
+    
+    public var reuseIdentifier: String { return String(describing: type(of: self)) }
+    
+    public static var reuseIdentifier: String { return String(describing: self) }
 }
-
