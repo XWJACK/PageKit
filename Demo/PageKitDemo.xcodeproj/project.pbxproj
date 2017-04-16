@@ -12,17 +12,10 @@
 		04A36C141E909DB400A3B26F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04A36C091E909C3600A3B26F /* Assets.xcassets */; };
 		04A36C151E909DB900A3B26F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04A36C0A1E909C3600A3B26F /* LaunchScreen.storyboard */; };
 		04A36C161E909DBC00A3B26F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04A36C0C1E909C3600A3B26F /* Main.storyboard */; };
-		04A36C271E90BDC300A3B26F /* AlphaPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A36C1E1E90BDC300A3B26F /* AlphaPager.swift */; };
-		04A36C281E90BDC300A3B26F /* AutoSizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A36C1F1E90BDC300A3B26F /* AutoSizeViewController.swift */; };
-		04A36C291E90BDC300A3B26F /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A36C201E90BDC300A3B26F /* BaseViewController.swift */; };
-		04A36C2A1E90BDC300A3B26F /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A36C211E90BDC300A3B26F /* CustomViewController.swift */; };
-		04A36C2B1E90BDC300A3B26F /* DefaultIndexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A36C221E90BDC300A3B26F /* DefaultIndexViewController.swift */; };
-		04A36C2C1E90BDC300A3B26F /* LoadTimePager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A36C231E90BDC300A3B26F /* LoadTimePager.swift */; };
-		04A36C2D1E90BDC300A3B26F /* NormalIndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A36C241E90BDC300A3B26F /* NormalIndicatorViewController.swift */; };
-		04A36C2E1E90BDC300A3B26F /* NormalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A36C251E90BDC300A3B26F /* NormalViewController.swift */; };
-		04A36C2F1E90BDC300A3B26F /* SizePager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A36C261E90BDC300A3B26F /* SizePager.swift */; };
 		04A36C411E90C2C300A3B26F /* PageKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A36C401E90C29E00A3B26F /* PageKit.framework */; };
 		04A36C421E90C2C300A3B26F /* PageKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04A36C401E90C29E00A3B26F /* PageKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04F846951EA0D4F000F922D2 /* OriginalContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F846941EA0D4F000F922D2 /* OriginalContainerViewController.swift */; };
+		04F846971EA0D55C00F922D2 /* ExampleList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F846961EA0D55C00F922D2 /* ExampleList.swift */; };
 		8CBFCD72EF0DE7B37221F765 /* Pods_PageKitDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26C0F7CADFEB36C6BE990C8 /* Pods_PageKitDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -38,8 +31,15 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 04A36C3B1E90C29D00A3B26F /* PageKit.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 04A36BC61E90990000A3B26F;
+			remoteGlobalIDString = 0411A7DD1EA0C8D30029E19C;
 			remoteInfo = PageKit;
+		};
+		04F8467E1EA0CC3500F922D2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04A36C3B1E90C29D00A3B26F /* PageKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0411A7E71EA0C8D30029E19C;
+			remoteInfo = PageKitTests;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -75,6 +75,8 @@
 		04A36C251E90BDC300A3B26F /* NormalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NormalViewController.swift; sourceTree = "<group>"; };
 		04A36C261E90BDC300A3B26F /* SizePager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizePager.swift; sourceTree = "<group>"; };
 		04A36C3B1E90C29D00A3B26F /* PageKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PageKit.xcodeproj; path = ../PageKit.xcodeproj; sourceTree = "<group>"; };
+		04F846941EA0D4F000F922D2 /* OriginalContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OriginalContainerViewController.swift; path = Examples/Original/OriginalContainerViewController.swift; sourceTree = "<group>"; };
+		04F846961EA0D55C00F922D2 /* ExampleList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExampleList.swift; path = Examples/ExampleList.swift; sourceTree = "<group>"; };
 		15A5D7BD9CC871182FD3ACB0 /* Pods-PageDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PageDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-PageDemo/Pods-PageDemo.release.xcconfig"; sourceTree = "<group>"; };
 		4DE82B9434F4418879DE24E2 /* Pods-PageKitDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PageKitDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PageKitDemo/Pods-PageKitDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		7D6D3F0AC877E58ECBBB3D3B /* Pods-PageKitDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PageKitDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-PageKitDemo/Pods-PageKitDemo.release.xcconfig"; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 			children = (
 				04A36C081E909C3600A3B26F /* AppDelegate.swift */,
 				04A36C0F1E909C3600A3B26F /* ViewController.swift */,
+				04F8468F1EA0D46A00F922D2 /* Examples */,
 				04A36C1E1E90BDC300A3B26F /* AlphaPager.swift */,
 				04A36C1F1E90BDC300A3B26F /* AutoSizeViewController.swift */,
 				04A36C201E90BDC300A3B26F /* BaseViewController.swift */,
@@ -149,8 +152,26 @@
 			isa = PBXGroup;
 			children = (
 				04A36C401E90C29E00A3B26F /* PageKit.framework */,
+				04F8467F1EA0CC3500F922D2 /* PageKitTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		04F8468F1EA0D46A00F922D2 /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				04F846961EA0D55C00F922D2 /* ExampleList.swift */,
+				04F846911EA0D49100F922D2 /* Original */,
+			);
+			name = Examples;
+			sourceTree = "<group>";
+		};
+		04F846911EA0D49100F922D2 /* Original */ = {
+			isa = PBXGroup;
+			children = (
+				04F846941EA0D4F000F922D2 /* OriginalContainerViewController.swift */,
+			);
+			name = Original;
 			sourceTree = "<group>";
 		};
 		6F5EEB2C950AB6F2E77F4E6F /* Frameworks */ = {
@@ -247,6 +268,13 @@
 			remoteRef = 04A36C3F1E90C29E00A3B26F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		04F8467F1EA0CC3500F922D2 /* PageKitTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = PageKitTests.xctest;
+			remoteRef = 04F8467E1EA0CC3500F922D2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -315,16 +343,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04A36C2B1E90BDC300A3B26F /* DefaultIndexViewController.swift in Sources */,
-				04A36C291E90BDC300A3B26F /* BaseViewController.swift in Sources */,
+				04F846971EA0D55C00F922D2 /* ExampleList.swift in Sources */,
 				04A36C131E909C7D00A3B26F /* AppDelegate.swift in Sources */,
-				04A36C2E1E90BDC300A3B26F /* NormalViewController.swift in Sources */,
-				04A36C271E90BDC300A3B26F /* AlphaPager.swift in Sources */,
-				04A36C2C1E90BDC300A3B26F /* LoadTimePager.swift in Sources */,
-				04A36C2A1E90BDC300A3B26F /* CustomViewController.swift in Sources */,
-				04A36C2D1E90BDC300A3B26F /* NormalIndicatorViewController.swift in Sources */,
-				04A36C2F1E90BDC300A3B26F /* SizePager.swift in Sources */,
-				04A36C281E90BDC300A3B26F /* AutoSizeViewController.swift in Sources */,
+				04F846951EA0D4F000F922D2 /* OriginalContainerViewController.swift in Sources */,
 				04A36C121E909C7900A3B26F /* ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

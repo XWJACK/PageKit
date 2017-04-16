@@ -7,4 +7,6 @@ target 'PageKitDemo' do
 
 pod 'SnapKit'
 
+#Debug
+pod 'Reveal-SDK', '~> 4', :configurations => ['Debug']
 end

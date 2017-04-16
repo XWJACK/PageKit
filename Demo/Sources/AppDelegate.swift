@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  Demo
+//  PageKitDemo
 //
 //  Created by Jack on 12/13/16.
 //  Copyright © 2016 Jack. All rights reserved.

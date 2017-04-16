@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ReuseContainer: Container {
+class ReuseContainer {
     internal var registedPages: [String: Page.Type] = [:]
     internal var reuseablePages: [String: Page] = [:]
     internal var visiblePages: [String: Page] = [:]

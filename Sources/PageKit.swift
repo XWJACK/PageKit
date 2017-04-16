@@ -33,9 +33,3 @@ extension UIViewController: LiveViewRepresentable {
     public var liveViewType: LiveViewType { return .viewController(self) }
 }
 
-public protocol PageKitDataSource: class {
-    /// Asks for number of page
-    ///
-    /// - Returns: Number of page
-    func numberOfPages() -> Int
-}
