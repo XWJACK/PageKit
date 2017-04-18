@@ -15,7 +15,7 @@ class OriginalContainerViewController: UIViewController, ContainerDataSource {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        let container = Container()
+        let container = Container(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 64))
         container.dataSource = self
         
         view.addSubview(container)
