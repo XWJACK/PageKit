@@ -111,9 +111,9 @@
 		0411A80D1EA0CA190029E19C /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				0411A8041EA0C9F00029E19C /* TitleContainer.swift */,
 				0411A7FE1EA0C9F00029E19C /* Container.swift */,
 				0411A8031EA0C9F00029E19C /* ReuseContainer.swift */,
+				0411A8041EA0C9F00029E19C /* TitleContainer.swift */,
 				0411A8021EA0C9F00029E19C /* PageView.swift */,
 			);
 			name = Core;

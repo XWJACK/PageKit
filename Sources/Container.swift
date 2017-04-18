@@ -8,9 +8,10 @@
 
 import UIKit
 
+/// Define page
 public typealias Page = PageRepresentable
 
-/// Data Sources for PageContainer
+/// Data source for container
 public protocol ContainerDataSource: class {
     /// Asks for page by given index
     ///
@@ -57,8 +58,8 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     private var stepIndex: Int = 0
     
     /// All pages
-    var pages: [Page?] = []
-    
+    private var pages: [Page?] = []
+    internal var totalPages: Int = 0
     //MARK: - public function
     
     public override init(frame: CGRect) {
@@ -257,6 +258,14 @@ open class Container: UIScrollView, UIScrollViewDelegate {
         return page
     }
     
+    /// Is valid index for pages
+    ///
+    /// - Parameter index: Index
+    /// - Returns: index is valid
+    internal final func isValid(index: Int) -> Bool {
+        return index >= 0 && index < totalPages
+    }
+    
     //MARK: - public final function
     
     /// Reload all pages
@@ -265,6 +274,7 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     /// Reset contentSize
     /// Clear page
     public final func reloadPage() {
+        totalPages = dataSource?.numberOfPages() ?? 0
         currentIndex = defaultIndex
         nextIndex = defaultIndex
         contentSize = resetContentSize()
@@ -324,14 +334,6 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     }
     
     //MARK: - private function
-    
-    /// Is valid index for pages
-    ///
-    /// - Parameter index: Index
-    /// - Returns: index is valid
-    private func isValid(index: Int) -> Bool {
-        return index >= 0 && index < pages.count
-    }
     
     /// Scroll did end scroll
     private func endScroll() {

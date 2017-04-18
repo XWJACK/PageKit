@@ -13,7 +13,7 @@ open class ReuseContainer: Container {
     
     internal var registedPages: [String: Page.Type] = [:]
     internal var reuseablePages: [String: Page] = [:]
-    internal var visiblePages: [String: Page] = [:]
+    internal var visiblePages: [Page?] = []
     
     /// Register page
     ///
@@ -29,6 +29,19 @@ open class ReuseContainer: Container {
         reuseablePages[page.reuseIdentifier] = page
     }
     
+    open override func reloadPage(byIndex index: Int) {
+        guard  dataSource != nil else { return }
+        let needToLoad = [index, index - 1, index + 1]
+        for index in needToLoad where isValid(index: index) {
+            let page = dynamicPage(byIndex: index)
+            visiblePages[index] = page
+        }
+    }
+    
+    open override func clearPage() {
+        visiblePages = Array(repeating: nil, count: totalPages)
+        reuseablePages = [:]
+    }
 //    open override func switching(toIndex index: Int, animated: Bool) {
 //        dynamicPage(byIndex: index)
 //        super.switching(toIndex: index, animated: animated)
