@@ -44,6 +44,7 @@ class OriginalContainerViewController: UIViewController, ContainerDataSource {
             page.backgroundColor = .green
             return page
         } else if let page = container.dequeueReusablePage(withIdentifier: OriginalContainerOneViewController.reuseIdentifier) as? OriginalContainerOneViewController {
+            page.imageView.image = #imageLiteral(resourceName: "origin_viewController_imageVIew")
             return page
         } else {
             let view = UIView()
@@ -63,7 +64,6 @@ class OriginalContainerOneViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageView.image = #imageLiteral(resourceName: "origin_viewController_imageVIew")
         view.addSubview(imageView)
         imageView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()

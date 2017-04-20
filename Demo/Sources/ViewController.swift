@@ -21,6 +21,7 @@ class ViewController: UIViewController {
         navigationController?.navigationBar.isTranslucent = false
         
         tableView = UITableView(frame: view.bounds, style: .plain)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.description())
         tableView.dataSource = self
         tableView.delegate = self
         view.addSubview(tableView)
@@ -38,7 +39,7 @@ extension ViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier:"Cell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.description(), for: indexPath)
         
         cell.textLabel?.text = dataSources.examples[indexPath.section].row[indexPath.row].title
         
