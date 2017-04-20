@@ -120,7 +120,7 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     
     /// Override this function to custom clear if need
     open func clearPage() {
-        visiblePages.filter{ $0 != nil }.forEach{ removeSubPages(page: $0!) }
+        visiblePages.filter{ $0 != nil }.forEach{ removeSubPage(page: $0!) }
         visiblePages = Array(repeating: nil, count: numberOfPages)
         reuseablePages = [:]
     }
@@ -292,7 +292,6 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     /// - parameter index: An index has been selected
     open func dynamicPage() {
         let visibleIndexCollection = visiblePagesIndexCollection()
-//        print(visibleIndexCollection)
         if isReuseEnable {
             ///*********************************************************************
             ///                     (page is visible)
@@ -310,8 +309,7 @@ open class Container: UIScrollView, UIScrollViewDelegate {
                 }
                 
                 if !visibleIndexCollection.contains(index), let inVisiblePage = page {
-                    removeSubPages(page: inVisiblePage)
-                    enterReuseQueue(index, inVisiblePage)
+                    enterReuseQueue(inVisiblePage, withIndex: index)
                 }
             }
         } else {
@@ -405,12 +403,11 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     /// Remove page from Container
     ///
     /// - Parameter page: Page
-    public final func removeSubPages(page: Page) {
+    public final func removeSubPage(page: Page) {
         switch page.pageType {
         case .view(let view):
             view.removeFromSuperview()
         case .viewController(let controller):
-            addSubview(controller.view)
             controller.view.removeFromSuperview()
             controller.removeFromParentViewController()
         }
@@ -441,14 +438,16 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     private func load(_ newPage: Page, withIndex index: Int)  {
         addSubPages(page: newPage)
         visiblePages[index] = newPage
+        reuseablePages[newPage.reuseIdentifier] = nil
         layoutPages(newPage, withIndex: index)
     }
     
     /// Enqueue page to reuseablePages
     ///
     /// - Parameter page: Page instance
-    private func enterReuseQueue(_ index: Int, _ page: Page) {
-        reuseablePages[page.reuseIdentifier] = page
+    private func enterReuseQueue(_ oldPage: Page, withIndex index: Int) {
+        removeSubPage(page: oldPage)
+        reuseablePages[oldPage.reuseIdentifier] = oldPage
         visiblePages[index] = nil
     }
     
