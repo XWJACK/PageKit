@@ -2,9 +2,7 @@
 
 ## Container:
 
-1. 提供重用Page的功能。[Demo](Demo/Sources/Examples/Original/OriginalContainerViewController.swift)
-
-`isReuseEnable`用于重用的开关，⚠️：应该在reloadPage之前就决定是否开启重用。
+### 提供重用Page的功能。[Demo](Demo/Sources/Examples/Original/OriginalContainerViewController.swift)
 
 😇开启重用：重用和`UITableView`使用相同：
 
@@ -15,7 +13,7 @@ container.register(UIView.self)
 container.register(UIViewController.self)
 ```
 
-在代理方法中： `dequeueReusablePage`，Identifier为`YourClass.reuseIdentifier`
+在代理方法中： `dequeueReusablePage`，Identifier为`UIViewController.reuseIdentifier`
 
 ```swift
 func container(_ container: Container, pageForIndexAt index: Int) -> Page {

@@ -20,6 +20,10 @@ public extension Int {
     public var cgfloat: CGFloat { return CGFloat(self) }
 }
 
+public extension CGFloat {
+    public var double: Double { return Double(self) }
+}
+
 public extension Array {
     func enumIndex(_ block: (Index, Element) -> ()) {
         for (index, element) in self.enumerated() { block(index, element) }

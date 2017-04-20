@@ -50,13 +50,13 @@ open class Container: UIScrollView, UIScrollViewDelegate {
         }
     }
     
+    open var syncScrollBlock: ((Double, Double) -> ())?
+    
     /// Is Reuse enable for container, default is true.
     ///
     /// True: Same as UITableView reuse
     ///
     /// False: Each page will init once if need.
-    ///
-    /// ⚠️: Suggest do not change this property after `reloadPage`
     open var isReuseEnable = true
     
     /// Default index for first load or reload page
@@ -177,6 +177,7 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     
     open func scrollViewDidScroll(_ scrollView: UIScrollView) {
         dynamicPage()
+        syncScrollBlock?(contentOffset.x.double, contentSize.width.double)
 //        let offSetIndex = getCurrentIndex()
 //
 //        stepIndex = getCurrentIndex()
@@ -296,9 +297,9 @@ open class Container: UIScrollView, UIScrollViewDelegate {
             ///*********************************************************************
             ///                     (page is visible)
             ///             true                         false
-            ///         (page == nil)                 (page == nil)
+            ///         (page == nil)                (page == nil)
             ///    true              false       true              false
-            /// (new page)             (do nothing)              (remove old page)
+            /// (new page)             (do nothing)            (remove old page)
             ///*********************************************************************
             for (index, page) in visiblePages.enumerated() {
                 
@@ -390,7 +391,7 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     /// Add page to Container
     ///
     /// - Parameter page: Page
-    public final func addSubPages(page: Page) {
+    public final func addSubPage(page: Page) {
         switch page.pageType {
         case .view(let view):
             addSubview(view)
@@ -436,13 +437,13 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     ///   - newPage: New Page
     ///   - index: Index
     private func load(_ newPage: Page, withIndex index: Int)  {
-        addSubPages(page: newPage)
+        addSubPage(page: newPage)
         visiblePages[index] = newPage
         reuseablePages[newPage.reuseIdentifier] = nil
         layoutPages(newPage, withIndex: index)
     }
     
-    /// Enqueue page to reuseablePages
+    /// Enter page to `reuseablePages`
     ///
     /// - Parameter page: Page instance
     private func enterReuseQueue(_ oldPage: Page, withIndex index: Int) {
