@@ -43,13 +43,20 @@ open class Container: UIScrollView, UIScrollViewDelegate {
         get { return self }
         set { if newValue != nil && newValue!.isKind(of: Container.self) { super.delegate = newValue } }
     }
+    
     open override var frame: CGRect {
         didSet {
             visiblePages.filter{ $0 != nil }.enumIndex{ index, page in layoutPages(page!, withIndex: index) }
         }
     }
-    /// Is Reuse enable, default is true.
-    /// If false, each page will init once if need.
+    
+    /// Is Reuse enable for container, default is true.
+    ///
+    /// True: Same as UITableView reuse
+    ///
+    /// False: Each page will init once if need.
+    ///
+    /// ⚠️: Suggest do not change this property after `reloadPage`
     open var isReuseEnable = true
     
     /// Default index for first load or reload page
@@ -57,13 +64,13 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     
     /// Current index
     /// 什么时候改变这个值有待考虑
-    open var currentIndex: Int = .begin
-    
+    open internal(set) var currentIndex: Int = .begin
     
     /// Is user interaction to scroll
-    public private(set) var isUserInteraction: Bool = false
+    open internal(set) var isUserInteraction: Bool = false
+    
     /// Is set content offset to adjust
-    public private(set) var isSetContentOffset: Bool = false
+    open internal(set) var isSetContentOffset: Bool = false
     
     
     
@@ -74,10 +81,13 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     
     /// Aleardy registed pages
     internal var registedPages: [String: Page.Type] = [:]
+    
     /// Reusable pages
     internal var reuseablePages: [String: Page] = [:]
+    
     /// Current visible pages, if `isReuseEnable` is true, this porperty means all pages is vaiible.
     internal var visiblePages: [Page?] = []
+    
     /// Total pages number
     internal var numberOfPages: Int = 0
     
@@ -99,13 +109,6 @@ open class Container: UIScrollView, UIScrollViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    /// Enqueue page to reuseablePages
-    ///
-    /// - Parameter page: Page instance
-    private func enqueue(_ page: Page) {
-        reuseablePages[page.reuseIdentifier] = page
-    }
-    
 //    open func reloadPage(byIndex index: Int) {
 //        if isReuseEnable {
 //            let page = dynamicPage(byIndex: index)
@@ -113,9 +116,11 @@ open class Container: UIScrollView, UIScrollViewDelegate {
 //        }
 //    }
     
+    //MARK: - open function
+    
     /// Override this function to custom clear if need
     open func clearPage() {
-        visiblePages.filter{ $0 != nil }.forEach{ remove(page: $0!) }
+        visiblePages.filter{ $0 != nil }.forEach{ removeSubPages(page: $0!) }
         visiblePages = Array(repeating: nil, count: numberOfPages)
         reuseablePages = [:]
     }
@@ -127,6 +132,10 @@ open class Container: UIScrollView, UIScrollViewDelegate {
         return CGSize(width: frame.width * numberOfPages.cgfloat, height: frame.height)
     }
     
+    /// Override this function to custom page frame if need
+    ///
+    /// - Parameter index: Index
+    /// - Returns: Frame for page
     open func pageFrame(byIndex index: Int) -> CGRect {
         return CGRect(x: frame.width * index.cgfloat,
                       y: 0,
@@ -140,8 +149,6 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     open func getCurrentIndex(by contentOffsetX: CGFloat? = nil) -> Int {
         return Int((contentOffsetX ?? contentOffset.x) / frame.width)
     }
-    
-    //MARK: - open function
     
     /// Switch to index with animate
     ///
@@ -246,7 +253,7 @@ open class Container: UIScrollView, UIScrollViewDelegate {
         endScroll()
     }
     
-    //MARK: - open custom override
+    //MARK: - open function
     
     /// Page will scroll from index to next index, Default do nothing.
     ///
@@ -280,13 +287,11 @@ open class Container: UIScrollView, UIScrollViewDelegate {
 //        return true
 //    }
     
-    //MARK: - internal function
-    
-    /// Dynamic Create Page
+    /// Dynamic decide how to deal with pages
     ///
     /// - parameter index: An index has been selected
     open func dynamicPage() {
-        let visibleIndexCollection = visiblePageIndex()
+        let visibleIndexCollection = visiblePagesIndexCollection()
 //        print(visibleIndexCollection)
         if isReuseEnable {
             ///*********************************************************************
@@ -297,38 +302,26 @@ open class Container: UIScrollView, UIScrollViewDelegate {
             /// (new page)             (do nothing)              (remove old page)
             ///*********************************************************************
             for (index, page) in visiblePages.enumerated() {
+                
                 if visibleIndexCollection.contains(index),
                     page == nil,
                     let newPage = dataSource?.container(self, pageForIndexAt: index) {
-                    add(page: newPage)
-                    visiblePages[index] = newPage
-                    layoutPages(newPage, withIndex: index)
+                    load(newPage, withIndex: index)
                 }
+                
                 if !visibleIndexCollection.contains(index), let inVisiblePage = page {
-                    remove(page: inVisiblePage)
-                    reuseablePages[inVisiblePage.reuseIdentifier] = inVisiblePage
-                    visiblePages[index] = nil
+                    removeSubPages(page: inVisiblePage)
+                    enterReuseQueue(index, inVisiblePage)
                 }
             }
         } else {
+            
             for index in visibleIndexCollection where visiblePages[index] == nil && dataSource != nil {
                 let newPage = dataSource!.container(self, pageForIndexAt: index)
-                add(page: newPage)
-                visiblePages[index] = newPage
-                layoutPages(newPage, withIndex: index)
+                load(newPage, withIndex: index)
             }
         }
     }
-    
-    /// Is valid index for pages
-    ///
-    /// - Parameter index: Index
-    /// - Returns: index is valid
-    internal final func isValid(index: Int) -> Bool {
-        return index >= 0 && index < numberOfPages
-    }
-    
-    //MARK: - public final function
     
     /// Reload all pages
     /// Reset nextIndex
@@ -343,6 +336,8 @@ open class Container: UIScrollView, UIScrollViewDelegate {
         switching(toIndex: nextIndex, animated: false)
     }
     
+    //MARK: - public final function
+    
     /// Suggest: using switching(toIndex: animated:) to replaced
     ///
     /// - Parameters:
@@ -353,15 +348,30 @@ open class Container: UIScrollView, UIScrollViewDelegate {
         super.setContentOffset(contentOffset, animated: animated)
     }
     
-    public final func visiblePageIndex() -> [Int] {
+    /// Is valid index for pages
+    ///
+    /// - Parameter index: Index
+    /// - Returns: index is valid
+    public final func isValid(index: Int) -> Bool {
+        return index >= 0 && index < numberOfPages
+    }
+    
+    /// Calculate how manay pages are visible
+    ///
+    /// - Returns: Visible index collection
+    public final func visiblePagesIndexCollection() -> [Int] {
         var indexCollection: [Int] = []
-        for index in 0..<numberOfPages where isPageVisible(byIndex: index) {
+        for index in 0..<numberOfPages where checkPageVisible(byIndex: index) {
             indexCollection.append(index)
         }
         return indexCollection
     }
     
-    public final func isPageVisible(byIndex index: Int) -> Bool {
+    /// Check page is visible by index
+    ///
+    /// - Parameter index: Index
+    /// - Returns: Is index page is visible
+    public final func checkPageVisible(byIndex index: Int) -> Bool {
         return CGRect(x: contentOffset.x,
                       y: contentOffset.y,
                       width: frame.width,
@@ -379,12 +389,10 @@ open class Container: UIScrollView, UIScrollViewDelegate {
         }
     }
     
-    //MARK: - function private
-    
     /// Add page to Container
     ///
     /// - Parameter page: Page
-    public final func add(page: Page) {
+    public final func addSubPages(page: Page) {
         switch page.pageType {
         case .view(let view):
             addSubview(view)
@@ -397,7 +405,7 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     /// Remove page from Container
     ///
     /// - Parameter page: Page
-    public final func remove(page: Page) {
+    public final func removeSubPages(page: Page) {
         switch page.pageType {
         case .view(let view):
             view.removeFromSuperview()
@@ -424,6 +432,25 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     }
     
     //MARK: - private function
+    
+    /// Add new page to container
+    ///
+    /// - Parameters:
+    ///   - newPage: New Page
+    ///   - index: Index
+    private func load(_ newPage: Page, withIndex index: Int)  {
+        addSubPages(page: newPage)
+        visiblePages[index] = newPage
+        layoutPages(newPage, withIndex: index)
+    }
+    
+    /// Enqueue page to reuseablePages
+    ///
+    /// - Parameter page: Page instance
+    private func enterReuseQueue(_ index: Int, _ page: Page) {
+        reuseablePages[page.reuseIdentifier] = page
+        visiblePages[index] = nil
+    }
     
     /// Scroll did end scroll
     private func endScroll() {

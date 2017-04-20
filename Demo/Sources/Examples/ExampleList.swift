@@ -15,3 +15,10 @@ struct ExampleList {
         examples.append(("Original", [("OriginalContainer", OriginalContainerViewController.self)]))
     }
 }
+
+//struct ExampleList {
+//    var examples: [String: [(String, UIViewController.Type)]] = [:]
+//    init() {
+//        examples["Original"] = [("Original-ReuseEnable", OriginalContainerViewController.self)]
+//    }
+//}
