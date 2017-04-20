@@ -12,7 +12,8 @@ import PageKit
 struct ExampleList {
     var examples: [(title: String, row: [(title: String, controllerType: UIViewController.Type)])] = []
     init() {
-        examples.append(("Original", [("OriginalContainer", OriginalContainerViewController.self)]))
+        examples.append(("Original", [("Normal", OriginalContainerViewController.self),
+                                      ("Parallax", OriginalParallaxContainerViewController.self)]))
     }
 }
 
