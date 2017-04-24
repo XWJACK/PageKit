@@ -10,7 +10,7 @@ import Foundation
 import PageKit
 import SnapKit
 
-class ReuseContainerViewController: BaseContainerViewController<ReuseContainer> {
+class ReuseContainerViewController: BaseContainerViewController<ReuseContainer>, ReuseContainerDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,26 +20,25 @@ class ReuseContainerViewController: BaseContainerViewController<ReuseContainer> 
         super.configContainer()
         container.register(UIImageView.self)
         container.register(ActionViewController.self)
-        
+        container.dataSource = self
         container.reloadPage()
     }
     
-    override func container(_ container: Container, pageForIndexAt index: Int) -> Page {
-        let errorView: () -> UIImageView = {
-            let view = UIImageView()
-            view.backgroundColor = .red
-            return view
-        }
+    func numberOfPages() -> Int {
+        return 10
+    }
+    
+    func container(_ container: ReuseContainer, pageForIndexAt index: Int) -> Page {
         
-        guard let container = container as? ReuseContainer else { return errorView() }
         if index % 2 == 0, let page = container.dequeueReusablePage(withIdentifier: UIImageView.reuseIdentifier) as? UIImageView {
             page.image = #imageLiteral(resourceName: "origin_background0")
             return page
         } else if let page = container.dequeueReusablePage(withIdentifier: ActionViewController.reuseIdentifier) as? ActionViewController {
             return page
         } else {
-            
-            return errorView()
+            let view = UIImageView()
+            view.backgroundColor = .red
+            return view
         }
     }
 }

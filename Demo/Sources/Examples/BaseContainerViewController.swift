@@ -10,7 +10,7 @@ import UIKit
 import PageKit
 import SnapKit
 
-class BaseContainerViewController<ContainerType: Container>: UIViewController, ContainerDataSource {
+class BaseContainerViewController<ContainerType: Container>: UIViewController {
     
     var container: ContainerType!
     
@@ -23,20 +23,11 @@ class BaseContainerViewController<ContainerType: Container>: UIViewController, C
     
     func configContainer() {
         container = ContainerType(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 64))
-        container.dataSource = self
         
         view.addSubview(container)
         
         container.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
-    }
-    
-    func numberOfPages() -> Int {
-        return 10
-    }
-    
-    func container(_ container: Container, pageForIndexAt index: Int) -> Page {
-        return UIView()
     }
 }
