@@ -57,7 +57,7 @@ extension ViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: false)
 
         let controller = dataSources.examples[indexPath.section].row[indexPath.row].controllerType.init()
-//        controller.title = dataSources.examples[indexPath.section].row[indexPath.row].title
+        controller.title = dataSources.examples[indexPath.section].row[indexPath.row].title
         navigationController?.pushViewController(controller, animated: true)
     }
 }

@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		047099511EA8852300857315 /* OriginalParallaxContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047099501EA8852300857315 /* OriginalParallaxContainerViewController.swift */; };
-		047099531EA8857000857315 /* BaseOriginContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047099521EA8857000857315 /* BaseOriginContainerViewController.swift */; };
+		047099511EA8852300857315 /* ParallaxContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047099501EA8852300857315 /* ParallaxContainerViewController.swift */; };
+		047099531EA8857000857315 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047099521EA8857000857315 /* ContainerViewController.swift */; };
 		04A36C121E909C7900A3B26F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A36C0F1E909C3600A3B26F /* ViewController.swift */; };
 		04A36C131E909C7D00A3B26F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A36C081E909C3600A3B26F /* AppDelegate.swift */; };
 		04A36C141E909DB400A3B26F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04A36C091E909C3600A3B26F /* Assets.xcassets */; };
@@ -16,7 +16,8 @@
 		04A36C161E909DBC00A3B26F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04A36C0C1E909C3600A3B26F /* Main.storyboard */; };
 		04A36C411E90C2C300A3B26F /* PageKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A36C401E90C29E00A3B26F /* PageKit.framework */; };
 		04A36C421E90C2C300A3B26F /* PageKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04A36C401E90C29E00A3B26F /* PageKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		04F846951EA0D4F000F922D2 /* OriginalContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F846941EA0D4F000F922D2 /* OriginalContainerViewController.swift */; };
+		04C279D51EADB337003299BA /* BaseContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C279D41EADB337003299BA /* BaseContainerViewController.swift */; };
+		04F846951EA0D4F000F922D2 /* ReuseContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F846941EA0D4F000F922D2 /* ReuseContainerViewController.swift */; };
 		04F846971EA0D55C00F922D2 /* ExampleList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F846961EA0D55C00F922D2 /* ExampleList.swift */; };
 		8CBFCD72EF0DE7B37221F765 /* Pods_PageKitDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26C0F7CADFEB36C6BE990C8 /* Pods_PageKitDemo.framework */; };
 /* End PBXBuildFile section */
@@ -60,8 +61,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		047099501EA8852300857315 /* OriginalParallaxContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OriginalParallaxContainerViewController.swift; path = Examples/Original/OriginalParallaxContainerViewController.swift; sourceTree = "<group>"; };
-		047099521EA8857000857315 /* BaseOriginContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseOriginContainerViewController.swift; path = Examples/Original/BaseOriginContainerViewController.swift; sourceTree = "<group>"; };
+		047099501EA8852300857315 /* ParallaxContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParallaxContainerViewController.swift; path = Examples/Original/ParallaxContainerViewController.swift; sourceTree = "<group>"; };
+		047099521EA8857000857315 /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContainerViewController.swift; path = Examples/Original/ContainerViewController.swift; sourceTree = "<group>"; };
 		047099541EA8868500857315 /* ExampleList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = ExampleList.json; path = Examples/ExampleList.json; sourceTree = "<group>"; };
 		04A36BDC1E9099A700A3B26F /* PageKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PageKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04A36C081E909C3600A3B26F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -80,7 +81,8 @@
 		04A36C251E90BDC300A3B26F /* NormalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NormalViewController.swift; sourceTree = "<group>"; };
 		04A36C261E90BDC300A3B26F /* SizePager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizePager.swift; sourceTree = "<group>"; };
 		04A36C3B1E90C29D00A3B26F /* PageKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PageKit.xcodeproj; path = ../PageKit.xcodeproj; sourceTree = "<group>"; };
-		04F846941EA0D4F000F922D2 /* OriginalContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OriginalContainerViewController.swift; path = Examples/Original/OriginalContainerViewController.swift; sourceTree = "<group>"; };
+		04C279D41EADB337003299BA /* BaseContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseContainerViewController.swift; path = Examples/BaseContainerViewController.swift; sourceTree = "<group>"; };
+		04F846941EA0D4F000F922D2 /* ReuseContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReuseContainerViewController.swift; path = Examples/Original/ReuseContainerViewController.swift; sourceTree = "<group>"; };
 		04F846961EA0D55C00F922D2 /* ExampleList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExampleList.swift; path = Examples/ExampleList.swift; sourceTree = "<group>"; };
 		15A5D7BD9CC871182FD3ACB0 /* Pods-PageDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PageDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-PageDemo/Pods-PageDemo.release.xcconfig"; sourceTree = "<group>"; };
 		4DE82B9434F4418879DE24E2 /* Pods-PageKitDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PageKitDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PageKitDemo/Pods-PageKitDemo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				04F846961EA0D55C00F922D2 /* ExampleList.swift */,
+				04C279D41EADB337003299BA /* BaseContainerViewController.swift */,
 				04F846911EA0D49100F922D2 /* Original */,
 				047099541EA8868500857315 /* ExampleList.json */,
 			);
@@ -175,9 +178,9 @@
 		04F846911EA0D49100F922D2 /* Original */ = {
 			isa = PBXGroup;
 			children = (
-				047099521EA8857000857315 /* BaseOriginContainerViewController.swift */,
-				04F846941EA0D4F000F922D2 /* OriginalContainerViewController.swift */,
-				047099501EA8852300857315 /* OriginalParallaxContainerViewController.swift */,
+				047099521EA8857000857315 /* ContainerViewController.swift */,
+				04F846941EA0D4F000F922D2 /* ReuseContainerViewController.swift */,
+				047099501EA8852300857315 /* ParallaxContainerViewController.swift */,
 			);
 			name = Original;
 			sourceTree = "<group>";
@@ -353,10 +356,11 @@
 			files = (
 				04F846971EA0D55C00F922D2 /* ExampleList.swift in Sources */,
 				04A36C131E909C7D00A3B26F /* AppDelegate.swift in Sources */,
-				047099511EA8852300857315 /* OriginalParallaxContainerViewController.swift in Sources */,
-				04F846951EA0D4F000F922D2 /* OriginalContainerViewController.swift in Sources */,
+				047099511EA8852300857315 /* ParallaxContainerViewController.swift in Sources */,
+				04F846951EA0D4F000F922D2 /* ReuseContainerViewController.swift in Sources */,
 				04A36C121E909C7900A3B26F /* ViewController.swift in Sources */,
-				047099531EA8857000857315 /* BaseOriginContainerViewController.swift in Sources */,
+				047099531EA8857000857315 /* ContainerViewController.swift in Sources */,
+				04C279D51EADB337003299BA /* BaseContainerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
