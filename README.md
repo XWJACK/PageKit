@@ -17,17 +17,17 @@ container.register(UIViewController.self)
 
 ```swift
 func container(_ container: Container, pageForIndexAt index: Int) -> Page {
-        if let page = container.dequeueReusablePage(withIdentifier: UIView.reuseIdentifier) as? UIView {
-            ...
-            return page
-        } else if let page = container.dequeueReusablePage(withIdentifier: UIViewController.reuseIdentifier) as? UIViewController {
-            return page
-        } else {
-            let view = UIView()
-            ...
-            return view
-        }
+    if let page = container.dequeueReusablePage(withIdentifier: UIView.reuseIdentifier) as? UIView {
+        ...
+        return page
+    } else if let page = container.dequeueReusablePage(withIdentifier: UIViewController.reuseIdentifier) as? UIViewController {
+        return page
+    } else {
+        let view = UIView()
+        ...
+        return view
     }
+}
 ```
 
 😇关闭重用：每个页面都会加载一遍，已经加载的Page不会再次加载，也不会调用代理方法。
