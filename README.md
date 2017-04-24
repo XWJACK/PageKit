@@ -6,14 +6,14 @@
 
 😇开启重用：重用和`UITableView`使用相同：
 
-注册需要加载的Page，会自动使用类名作为Identifier
+- 注册需要加载的Page，会自动使用类名作为Identifier
 
 ```swift
 container.register(UIView.self)
 container.register(UIViewController.self)
 ```
 
-在代理方法中： `dequeueReusablePage`，Identifier为`UIViewController.reuseIdentifier`
+- 在代理方法中： `dequeueReusablePage`，Identifier为`UIViewController.reuseIdentifier`
 
 ```swift
 func container(_ container: Container, pageForIndexAt index: Int) -> Page {

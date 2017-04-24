@@ -13,6 +13,7 @@ public typealias Page = PageRepresentable
 
 /// Data source for container
 public protocol ContainerDataSource: class {
+    
     /// Asks for page by given index
     ///
     /// - Parameters:
@@ -429,6 +430,11 @@ open class Container: UIScrollView, UIScrollViewDelegate {
         return reuseablePages[identifier] ?? registedPages[identifier]?.init()
     }
     
+    public final func pageForIndex(at index: Int) -> Page? {
+        guard isValid(index: index) else { return nil }
+        return visiblePages[index]
+    }
+    
     //MARK: - private function
     
     /// Add new page to container
@@ -459,5 +465,3 @@ open class Container: UIScrollView, UIScrollViewDelegate {
 //        containerDidEndSwitching(from: oldCurrentIndex, to: newCurrentIndex)
     }
 }
-
-

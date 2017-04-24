@@ -8,13 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		0411A7E81EA0C8D30029E19C /* PageKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0411A7DE1EA0C8D30029E19C /* PageKit.framework */; };
-		0411A7FD1EA0C9290029E19C /* PageKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 0411A7FA1EA0C9250029E19C /* PageKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0411A8051EA0C9F00029E19C /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0411A7FE1EA0C9F00029E19C /* Container.swift */; };
 		0411A8061EA0C9F00029E19C /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0411A7FF1EA0C9F00029E19C /* Extension.swift */; };
 		0411A8071EA0C9F00029E19C /* NormalIndicatorHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0411A8001EA0C9F00029E19C /* NormalIndicatorHeader.swift */; };
 		0411A8081EA0C9F00029E19C /* PageKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0411A8011EA0C9F00029E19C /* PageKit.swift */; };
 		0411A8091EA0C9F00029E19C /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0411A8021EA0C9F00029E19C /* PageView.swift */; };
 		0411A80B1EA0C9F00029E19C /* TitleContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0411A8041EA0C9F00029E19C /* TitleContainer.swift */; };
+		04C279B71EAD96AE003299BA /* PageKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 0411A7FA1EA0C9250029E19C /* PageKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +112,7 @@
 				0411A7FE1EA0C9F00029E19C /* Container.swift */,
 				0411A8041EA0C9F00029E19C /* TitleContainer.swift */,
 				0411A8021EA0C9F00029E19C /* PageView.swift */,
+				0411A7FF1EA0C9F00029E19C /* Extension.swift */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -119,7 +120,6 @@
 		0411A80E1EA0CA2C0029E19C /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				0411A7FF1EA0C9F00029E19C /* Extension.swift */,
 				0411A8001EA0C9F00029E19C /* NormalIndicatorHeader.swift */,
 			);
 			name = Features;
@@ -132,7 +132,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0411A7FD1EA0C9290029E19C /* PageKit.h in Headers */,
+				04C279B71EAD96AE003299BA /* PageKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,9 +143,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0411A7F21EA0C8D30029E19C /* Build configuration list for PBXNativeTarget "PageKit" */;
 			buildPhases = (
+				0411A7DB1EA0C8D30029E19C /* Headers */,
 				0411A7D91EA0C8D30029E19C /* Sources */,
 				0411A7DA1EA0C8D30029E19C /* Frameworks */,
-				0411A7DB1EA0C8D30029E19C /* Headers */,
 				0411A7DC1EA0C8D30029E19C /* Resources */,
 			);
 			buildRules = (
@@ -369,6 +369,7 @@
 		0411A7F31EA0C8D30029E19C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -392,6 +393,7 @@
 		0411A7F41EA0C8D30029E19C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
