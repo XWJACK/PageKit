@@ -8,6 +8,17 @@
 
 import Foundation
 
+/// Data source for container
+public protocol ReuseContainerDataSource: BaseContainerDataSource {
+    /// Asks for page by given index
+    ///
+    /// - Parameters:
+    ///   - container: Container instanse
+    ///   - index: Index
+    /// - Returns: Page
+    func container(_ container: ReuseContainer, pageForIndexAt index: Int) -> Page
+}
+
 open class ReuseContainer: Container {
     
     /// Aleardy registed pages
@@ -33,9 +44,12 @@ open class ReuseContainer: Container {
         for (index, page) in visiblePages.enumerated() {
             
             if visibleIndexCollection.contains(index),
-                page == nil,
-                let newPage = dataSource?.container(self, pageForIndexAt: index) {
-                load(newPage, withIndex: index)
+                page == nil {
+                if let newPage = (dataSource as? ReuseContainerDataSource)?.container(self, pageForIndexAt: index) {
+                    load(newPage, withIndex: index)
+                } else {
+                    assertionFailure("Using ReuseContainerDataSource to slove this error")
+                }
             }
             
             if !visibleIndexCollection.contains(index), let inVisiblePage = page {

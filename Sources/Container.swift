@@ -11,16 +11,11 @@ import UIKit
 /// Define page
 public typealias Page = PageRepresentable
 
-/// Data source for container
-public protocol ContainerDataSource: class {
-    
-    /// Asks for page by given index
-    ///
-    /// - Parameters:
-    ///   - container: Container instanse
-    ///   - index: Index
-    /// - Returns: Page
-    func container(_ container: Container, pageForIndexAt index: Int) -> Page
+/// Define DataSource for Container
+public typealias AnyContainerDataSource = BaseContainerDataSource
+
+/// Base Container DataSource
+public protocol BaseContainerDataSource: class {
     
     /// Asks for number of page
     ///
@@ -28,13 +23,24 @@ public protocol ContainerDataSource: class {
     func numberOfPages() -> Int
 }
 
+/// Data source for container
+public protocol ContainerDataSource: BaseContainerDataSource {
+    /// Asks for page by given index
+    ///
+    /// - Parameters:
+    ///   - container: Container instanse
+    ///   - index: Index
+    /// - Returns: Page
+    func container(_ container: Container, pageForIndexAt index: Int) -> Page
+}
+
 /// Base Container
 open class Container: UIScrollView, UIScrollViewDelegate {
     
     //MARK: - open property
-    
+
     /// Data source for container
-    open weak var dataSource: ContainerDataSource?
+    open weak var dataSource: AnyContainerDataSource?
     
     /// Parent view controller
     open weak var parentViewController: UIViewController?
@@ -279,8 +285,11 @@ open class Container: UIScrollView, UIScrollViewDelegate {
         let visibleIndexCollection = visiblePagesIndexCollection()
         
         for index in visibleIndexCollection where visiblePages[index] == nil && dataSource != nil {
-            let newPage = dataSource!.container(self, pageForIndexAt: index)
-            load(newPage, withIndex: index)
+            if let newPage = (dataSource as? ContainerDataSource)?.container(self, pageForIndexAt: index) {
+                load(newPage, withIndex: index)
+            } else {
+                assertionFailure("Using ContainerDataSource to slove this error")
+            }
         }
     }
     
