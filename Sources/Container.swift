@@ -63,11 +63,8 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     open var defaultIndex: Int = 0
     
     /// Current index
-    /// 什么时候改变这个值有待考虑
+    //TODO: 什么时候改变这个值有待考虑
     open internal(set) var currentIndex: Int = .begin
-    
-    /// Is user interaction to scroll
-    open internal(set) var isUserInteraction: Bool = false
     
     /// Is set content offset to adjust
     open internal(set) var isSetContentOffset: Bool = false
@@ -136,8 +133,8 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     /// Override this function to custom index position
     ///
     /// - Returns: Current index for Container
-    open func getCurrentIndex(by contentOffsetX: CGFloat? = nil) -> Int {
-        return Int((contentOffsetX ?? contentOffset.x) / frame.width)
+    open func getCurrentIndex(by contentOffsetX: CGFloat) -> Int {
+        return Int(contentOffsetX / frame.width)
     }
     
     /// Switch to index with animate
@@ -166,8 +163,10 @@ open class Container: UIScrollView, UIScrollViewDelegate {
     // MARK: - UIScrollViewDelegate
     
     open func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        outPut("scrollViewDidScroll")
         dynamicPage()
         syncScrollBlock?(contentOffset.x.double, contentSize.width.double)
+        
 //        let offSetIndex = getCurrentIndex()
 //
 //        stepIndex = getCurrentIndex()
@@ -183,19 +182,19 @@ open class Container: UIScrollView, UIScrollViewDelegate {
 //            containerWillSwitching(fromIndex: currentIndex, to: nextIndex, completed: 0)
 //        }
         
-        
-//        let offSet = contentOffset.x / frame.width
+//        let offSetIndex = getCurrentIndex(by: contentOffset.x)
+
 //        /// stepNextIndex is only use for user interaction
 //        var stepNextIndex = 0
 //        
-//        if CGFloat(currentIndex) > offSet {
+//        if currentIndex > offSet {
 //            stepNextIndex = currentIndex - 1
 //        } else if CGFloat(currentIndex) < offSet {
 //            stepNextIndex = currentIndex + 1
 //        } else {
 //            stepNextIndex = currentIndex
 //        }
-//        
+//
 //        nextIndex = isuserInteraction ? stepNextIndex : nextIndex
 //        guard nextIndex != currentIndex else { return }
 //        
@@ -216,34 +215,39 @@ open class Container: UIScrollView, UIScrollViewDelegate {
 //    }
     
     open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        isUserInteraction = true
-        currentIndex = getCurrentIndex()
+        outPut("scrollViewWillBeginDragging")
+        currentIndex = getCurrentIndex(by: contentOffset.x)
     }
     
     open func scrollViewWillEndDragging(_ scrollView: UIScrollView,
                                                 withVelocity velocity: CGPoint,
                                                 targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        isUserInteraction = false
+        outPut("scrollViewWillEndDragging")
         nextIndex = getCurrentIndex(by: targetContentOffset.pointee.x)
     }
     
     open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        isUserInteraction = false
+        outPut("scrollViewDidEndDragging")
     }
     
     open func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-        
+        outPut("scrollViewWillBeginDecelerating")
     }
     
     open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        outPut("scrollViewDidEndDecelerating")
+        
         endScroll()
     }
     
     open func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        outPut("scrollViewDidEndScrollingAnimation")
         isSetContentOffset = false
         endScroll()
     }
-    
+    func outPut(_ functionName: String) {
+        print(functionName + " isTracking: " + isTracking.description + " isDragging: " + isDragging.description + " isDecelerating: " + isDecelerating.description)
+    }
     //MARK: - open function
     
     /// Page will scroll from index to next index, Default do nothing.

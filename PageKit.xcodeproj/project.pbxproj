@@ -16,6 +16,7 @@
 		0411A80B1EA0C9F00029E19C /* TitleContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0411A8041EA0C9F00029E19C /* TitleContainer.swift */; };
 		04C279B71EAD96AE003299BA /* PageKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 0411A7FA1EA0C9250029E19C /* PageKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04C279D11EADA81B003299BA /* ReuseContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C279D01EADA81B003299BA /* ReuseContainer.swift */; };
+		04C279DA1EAE004C003299BA /* AbstractContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C279D91EAE004C003299BA /* AbstractContainer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +42,7 @@
 		0411A8021EA0C9F00029E19C /* PageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
 		0411A8041EA0C9F00029E19C /* TitleContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleContainer.swift; sourceTree = "<group>"; };
 		04C279D01EADA81B003299BA /* ReuseContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReuseContainer.swift; sourceTree = "<group>"; };
+		04C279D91EAE004C003299BA /* AbstractContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbstractContainer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 		0411A80D1EA0CA190029E19C /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				04C279D91EAE004C003299BA /* AbstractContainer.swift */,
 				0411A7FE1EA0C9F00029E19C /* Container.swift */,
 				04C279D01EADA81B003299BA /* ReuseContainer.swift */,
 				0411A8041EA0C9F00029E19C /* TitleContainer.swift */,
@@ -259,6 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0411A8091EA0C9F00029E19C /* PageView.swift in Sources */,
+				04C279DA1EAE004C003299BA /* AbstractContainer.swift in Sources */,
 				0411A8071EA0C9F00029E19C /* NormalIndicatorHeader.swift in Sources */,
 				0411A8081EA0C9F00029E19C /* PageKit.swift in Sources */,
 				04C279D11EADA81B003299BA /* ReuseContainer.swift in Sources */,
