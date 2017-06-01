@@ -79,6 +79,7 @@ open class Container: UIView, UIScrollViewDelegate {
         reloadData()
     }
     
+    /// Reload all data
     open func reloadData() {
         numberOfPages = dataSource?.numberOfPages() ?? 0
         scrollView.contentSize = contentSize
@@ -252,7 +253,7 @@ open class Container: UIView, UIScrollViewDelegate {
     /// - Returns: Visible index collection
     open func visiblePagesIndexs() -> [Int] {
         var indexs: [Int] = []
-        var beginIndex = index(withOffset: scrollView.contentOffset.x)
+        var beginIndex: Int = index(withOffset: scrollView.contentOffset.x)
         while isVisible(forPageAtIndex: beginIndex) {
             indexs.append(beginIndex)
             beginIndex += 1
