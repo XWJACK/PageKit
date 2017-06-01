@@ -29,3 +29,12 @@ public extension Array {
         for (index, element) in self.enumerated() { block(index, element) }
     }
 }
+
+public extension CGRect {
+    func resetBy(_ inset: UIEdgeInsets) -> CGRect {
+        return CGRect(x: origin.x - inset.left,
+                      y: origin.y - inset.top,
+                      width: size.width - inset.left - inset.right,
+                      height: size.height - inset.top - inset.bottom)
+    }
+}
