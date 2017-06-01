@@ -1,40 +1,58 @@
 # PageKit
 
+![Xcode 8.3+](https://img.shields.io/badge/Xcode-8.3%2B-blue.svg)
+![iOS 8.0+](https://img.shields.io/badge/iOS-8.0%2B-blue.svg)
+![Swift 3.1+](https://img.shields.io/badge/Swift-3.0%2B-orange.svg)
+![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-brightgreen.svg)
+![pod](https://img.shields.io/badge/pod-v0.1.1-brightgreen.svg)
+
+## Overview
+
+Easy way to use UIScrollView page
+
 ## Installation
 
-![Xcode 8.2+](https://img.shields.io/badge/Xcode-8.2%2B-blue.svg) ![iOS 8.0+](https://img.shields.io/badge/iOS-8.0%2B-blue.svg) ![Swift 3.0+](https://img.shields.io/badge/Swift-3.0%2B-orange.svg) [![Version](https://img.shields.io/cocoapods/v/PageKit.svg?style=flat)](https://cocoapods.org/pods/PageKit)
+### CocoaPods
 
-## Container:
+[CocoaPods](https://cocoapods.org/) is a dependency manager for Cocoa projects.
 
-😇关闭重用：每个页面都会加载一遍，已经加载的Page不会再次加载，也不会调用代理方法。
+Specify PageKit into your project's Podfile:
 
-## ReuseContainer:
+```ruby
+platform :ios, '8.0'
+use_frameworks!
 
-### 提供重用Page的功能。
-
-😇开启重用：重用和`UITableView`使用相同：
-
-- 注册需要加载的Page，会自动使用类名作为Identifier
-
-```swift
-container.register(UIView.self)
-container.register(UIViewController.self)
+target '<Your App Target>' do
+  pod 'PageKit', :git => 'git@github.com:XWJACK/PageKit.git'
+end
 ```
 
-- 在代理方法中： `dequeueReusablePage`，Identifier为`UIViewController.reuseIdentifier`
+Then run the following command:
 
-```swift
-func container(_ container: Container, pageForIndexAt index: Int) -> Page {
-    if let page = container.dequeueReusablePage(withIdentifier: UIView.reuseIdentifier) as? UIView {
-        ...
-        return page
-    } else if let page = container.dequeueReusablePage(withIdentifier: UIViewController.reuseIdentifier) as? UIViewController {
-        return page
-    } else {
-        let view = UIView()
-        ...
-        return view
-    }
-}
+```sh
+$ pod install
 ```
+
+### Carthage
+
+[Carthage](https://github.com/Carthage/Carthage) is a simple, decentralized
+dependency manager for Cocoa.
+
+You can install Carthage with [Homebrew](http://brew.sh/) using the following command:
+
+```bash
+$ brew update
+$ brew install carthage
+```
+
+To integrate PageKit into your Xcode project using Carthage, specify it in your `Cartfile`:
+
+```ogdl
+github "XWJACK/PageKit" ~> 0.1.1
+```
+
+Run `carthage update` to build the framework and drag the built `PageKit.framework` into your Xcode project.
+
+## Usage
+
 
