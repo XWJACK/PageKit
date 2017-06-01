@@ -30,9 +30,7 @@ class ParallaxContainerViewController: BaseContainerViewController<Container> {
     
     override func configContainer() {
         super.configContainer()
-        container.isPagingEnabled = false
-        container.syncScrollBlock = syncScroll
-        container.reloadPage()
+        container.scrollView.isPagingEnabled = false
     }
     
     func syncScroll(current: Double, total: Double) {

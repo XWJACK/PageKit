@@ -22,7 +22,7 @@ class BaseContainerViewController<ContainerType: Container>: UIViewController {
     }
     
     func configContainer() {
-        container = ContainerType(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 64))
+        container = ContainerType()
         
         view.addSubview(container)
         

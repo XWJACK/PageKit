@@ -20,7 +20,6 @@ class ContainerViewController: BaseContainerViewController<Container>, Container
         super.configContainer()
         
         container.dataSource = self
-        container.reloadPage()
     }
     func numberOfPages() -> Int {
         return 10

@@ -21,7 +21,6 @@ class ReuseContainerViewController: BaseContainerViewController<ReuseContainer>,
         container.register(UIImageView.self)
         container.register(ActionViewController.self)
         container.dataSource = self
-        container.reloadPage()
     }
     
     func numberOfPages() -> Int {
