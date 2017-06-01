@@ -9,7 +9,7 @@
 import Foundation
 
 /// Data source for container
-public protocol ReuseContainerDataSource: BaseContainerDataSource {
+public protocol ReuseContainerDataSource: ContainerDataSource {
     /// Asks for page by given index
     ///
     /// - Parameters:
@@ -19,21 +19,26 @@ public protocol ReuseContainerDataSource: BaseContainerDataSource {
     func container(_ container: ReuseContainer, pageForIndexAt index: Int) -> Page
 }
 
+/// Container with reuseable
 open class ReuseContainer: Container {
     
     /// Aleardy registed pages
-    internal var registedPages: [String: Page.Type] = [:]
-    
+    private var registedPages: [String: Page.Type] = [:]
     /// Reusable pages
-    internal var reuseablePages: [String: Page] = [:]
+    private var reuseablePages: [String: Page] = [:]
+    /// Visible pages
+    private var visiblePages: [Page?] = []
     
-    open override func clearPage() {
-        super.clearPage()
+    open override func reloadData() {
+        super.reloadData()
         reuseablePages = [:]
+        visiblePages = Array(repeating: nil, count: numberOfPages)
+        visiblePages.reserveCapacity(numberOfPages)
+        dynamicPage()
     }
     
-    open override func dynamicPage() {
-        let visibleIndexCollection = visiblePagesIndexCollection()
+    open func dynamicPage() {
+        let visibleIndexs = visiblePagesIndexs()
         ///*********************************************************************
         ///                     (page is visible)
         ///             true                         false
@@ -43,23 +48,22 @@ open class ReuseContainer: Container {
         ///*********************************************************************
         for (index, page) in visiblePages.enumerated() {
             
-            if visibleIndexCollection.contains(index),
+            if visibleIndexs.contains(index),
                 page == nil {
-                if let newPage = (dataSource as? ReuseContainerDataSource)?.container(self, pageForIndexAt: index) {
-                    load(newPage, withIndex: index)
-                } else {
-                    assertionFailure("Using ReuseContainerDataSource to slove this error")
-                }
+                load((dataSource as! ReuseContainerDataSource).container(self, pageForIndexAt: index), withIndex: index)
             }
             
-            if !visibleIndexCollection.contains(index), let inVisiblePage = page {
+            if !visibleIndexs.contains(index),
+                let inVisiblePage = page {
                 enterReuseQueue(inVisiblePage, withIndex: index)
             }
         }
     }
-    
-    internal override func load(_ newPage: Page, withIndex index: Int) {
-        super.load(newPage, withIndex: index)
+
+    open func load(_ newPage: Page, withIndex index: Int) {
+        addSubPage(newPage)
+        visiblePages[index] = newPage
+        parse(newPage).frame = frame(forPageAtIndex: index)
         reuseablePages[newPage.reuseIdentifier] = nil
     }
     
@@ -78,11 +82,16 @@ open class ReuseContainer: Container {
         return reuseablePages[identifier] ?? registedPages[identifier]?.init()
     }
     
+    open override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        super.scrollViewDidScroll(scrollView)
+        dynamicPage()
+    }
+    
     /// Enter page to `reuseablePages`
     ///
     /// - Parameter page: Page instance
     private func enterReuseQueue(_ oldPage: Page, withIndex index: Int) {
-        removeSubPage(page: oldPage)
+        removeSubPage(oldPage)
         reuseablePages[oldPage.reuseIdentifier] = oldPage
         visiblePages[index] = nil
     }
