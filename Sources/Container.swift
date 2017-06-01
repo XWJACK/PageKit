@@ -11,9 +11,6 @@ import UIKit
 /// Define page
 public typealias Page = PageRepresentable
 
-/// Define DataSource for Container
-//public typealias AnyContainerDataSource = BaseContainerDataSource
-
 /// Base Container DataSource
 public protocol ContainerDataSource: class {
     
@@ -21,21 +18,6 @@ public protocol ContainerDataSource: class {
     ///
     /// - Returns: Number of page
     func numberOfPages() -> Int
-}
-
-/// Data source for container
-//public protocol ContainerDataSource: BaseContainerDataSource {
-    /// Asks for page by given index
-    ///
-    /// - Parameters:
-    ///   - container: Container instanse
-    ///   - index: Index
-    /// - Returns: Page
-//    func container(_ container: Container, pageForIndexAt index: Int) -> Page
-//}
-
-public protocol ContainerDelegate {
-    
 }
 
 /// Base Container
@@ -50,7 +32,7 @@ open class Container: UIView, UIScrollViewDelegate {
     open weak var parentViewController: UIViewController?
     
     /// ContentInset for container
-    open var contentInset: UIEdgeInsets?
+    open var contentInset: UIEdgeInsets = .zero
     
     /// ContentSize for container
     open var contentSize: CGSize { return CGSize(width: scrollView.frame.width * numberOfPages.cgfloat,
@@ -92,7 +74,7 @@ open class Container: UIView, UIScrollViewDelegate {
     }
     
     open override func layoutSubviews() {
-        scrollView.frame = frame.resetBy(contentInset ?? .zero)
+        scrollView.frame = frame.resetBy(contentInset)
         super.layoutSubviews()
         reloadData()
     }
@@ -101,7 +83,6 @@ open class Container: UIView, UIScrollViewDelegate {
         numberOfPages = dataSource?.numberOfPages() ?? 0
         scrollView.contentSize = contentSize
         //        nextIndex = defaultIndex
-        //        dynamicPage()
         //        switching(toIndex: nextIndex, animated: false)
     }
     
@@ -318,9 +299,9 @@ open class Container: UIView, UIScrollViewDelegate {
     public final func addSubPage(_ page: Page) {
         switch page.pageType {
         case .view(let view):
-            addSubview(view)
+            scrollView.addSubview(view)
         case .viewController(let controller):
-            addSubview(controller.view)
+            scrollView.addSubview(controller.view)
             parentViewController?.addChildViewController(controller)
         }
     }

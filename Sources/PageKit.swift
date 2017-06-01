@@ -36,6 +36,8 @@ public protocol PageRepresentable: PageReusable, NSObjectProtocol {
     
     /// Define page type
     var pageType: PageType { get }
+    
+    /// Can be init
     init()
 }
 
