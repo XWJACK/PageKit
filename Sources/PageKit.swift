@@ -8,8 +8,6 @@
 
 import UIKit
 
-// MARK: - PageType
-
 /// Page type
 ///
 /// - view: UIView
@@ -41,6 +39,7 @@ public protocol PageRepresentable: PageReusable, NSObjectProtocol {
     init()
 }
 
+// MARK: - Extension UIView with PageRepresentable
 extension UIView: PageRepresentable {
     
     public var pageType: PageType { return .view(self) }
@@ -50,6 +49,7 @@ extension UIView: PageRepresentable {
     public static var reuseIdentifier: String { return String(describing: self) }
 }
 
+// MARK: - Extension UIViewController with PageRepresentable
 extension UIViewController: PageRepresentable {
     
     public var pageType: PageType { return .viewController(self) }
