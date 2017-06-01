@@ -32,6 +32,7 @@ open class ReuseContainer: Container {
     open override func reloadData() {
         super.reloadData()
         reuseablePages = [:]
+        visiblePages.filter{ $0 != nil }.forEach{ removeSubPage($0!) }
         visiblePages = Array(repeating: nil, count: numberOfPages)
         visiblePages.reserveCapacity(numberOfPages)
         dynamicPage()
