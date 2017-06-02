@@ -1,19 +1,19 @@
 //
-//  Page.h
+//  PageKit.h
 //  PageKit
 //
-//  Created by Jack on 4/2/17.
+//  Created by Jack on 4/14/17.
 //  Copyright © 2017 Jack. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-//! Project version number for Page.
-FOUNDATION_EXPORT double PageVersionNumber;
+//! Project version number for PageKit.
+FOUNDATION_EXPORT double PageKitVersionNumber;
 
-//! Project version string for Page.
-FOUNDATION_EXPORT const unsigned char PageVersionString[];
+//! Project version string for PageKit.
+FOUNDATION_EXPORT const unsigned char PageKitVersionString[];
 
-// In this header, you should import all the public headers of your framework using statements like #import <Page/PublicHeader.h>
+// In this header, you should import all the public headers of your framework using statements like #import <PageKit/PublicHeader.h>
 
 

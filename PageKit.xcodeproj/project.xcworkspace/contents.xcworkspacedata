@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Page.xcodeproj">
+      location = "self:PageKit.xcodeproj">
    </FileRef>
 </Workspace>
