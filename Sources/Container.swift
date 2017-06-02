@@ -79,7 +79,9 @@ open class Container: UIView, UIScrollViewDelegate {
         reloadData()
     }
     
-    /// Reload all data
+    /// Call this method to reload all the data that is used to construct the container.
+    ///
+    /// Same with using table view
     open func reloadData() {
         numberOfPages = dataSource?.numberOfPages() ?? 0
         scrollView.contentSize = contentSize

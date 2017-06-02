@@ -22,6 +22,8 @@ public protocol ReuseContainerDataSource: ContainerDataSource {
 /// Container with reuseable
 open class ReuseContainer: Container {
     
+    //MARK: - Private property
+    
     /// Aleardy registed pages
     private var registedPages: [String: Page.Type] = [:]
     /// Reusable pages
@@ -29,6 +31,11 @@ open class ReuseContainer: Container {
     /// Visible pages
     private var visiblePages: [Page?] = []
     
+    //MARK: - Open function
+    
+    /// Call this method to reload all the data that is used to construct the container.
+    ///
+    /// Same with using table view
     open override func reloadData() {
         super.reloadData()
         reuseablePages = [:]
@@ -38,6 +45,7 @@ open class ReuseContainer: Container {
         dynamicPage()
     }
     
+    /// Dynamic load or remove pages
     open func dynamicPage() {
         let visibleIndexs = visiblePagesIndexs()
         ///*********************************************************************
@@ -56,11 +64,16 @@ open class ReuseContainer: Container {
             
             if !visibleIndexs.contains(index),
                 let inVisiblePage = page {
-                enterReuseQueue(inVisiblePage, withIndex: index)
+                remove(inVisiblePage, withIndex: index)
             }
         }
     }
 
+    /// Load new page into contaienr
+    ///
+    /// - Parameters:
+    ///   - newPage: New page
+    ///   - index: Index for new page
     open func load(_ newPage: Page, withIndex index: Int) {
         addSubPage(newPage)
         visiblePages[index] = newPage
@@ -68,32 +81,46 @@ open class ReuseContainer: Container {
         reuseablePages[newPage.reuseIdentifier] = nil
     }
     
-    /// Register page
+    /// Remove old page from container
     ///
-    /// - Parameter pageClass: Page Type
-    public final func register(_ pageClass: Page.Type) {
-        registedPages[pageClass.reuseIdentifier] = pageClass
+    /// - Parameters:
+    ///   - oldPage: Old page
+    ///   - index: Index for old page
+    open func remove(_ oldPage: Page, withIndex index: Int) {
+        removeSubPage(oldPage)
+        reuseablePages[oldPage.reuseIdentifier] = oldPage
+        visiblePages[index] = nil
     }
     
-    /// Dequeue page with identifier.
+    //MARK: - Public final function
+    
+    /// Registers a class for use in creating new container page.
+    ///
+    /// Same with using table view, the only different is you can let identifier set with auto, not must.
+    ///
+    /// - Parameters:
+    ///   - pageClass: The class of a page that you want to use in the container.
+    ///   - identifier: The reuse identifier for the page. This parameter default is class name if not be set. This parameter can be set by youself, but it must not be an empty string.
+    public final func register(_ pageClass: Page.Type, forPageReuseIdentifier identifier: String? = nil) {
+        registedPages[identifier ?? pageClass.reuseIdentifier] = pageClass
+    }
+    
+    /// Returns a reusable container page object for the specified reuse identifier and adds it to the container. 
+    ///
+    /// Same with using tableView.
     ///
     /// - Parameter identifier: Page.reuse
     /// - Returns: Page with identifier, nil if not register page
-    public final func dequeueReusablePage(withIdentifier identifier: String) -> Page? {
-        return reuseablePages[identifier] ?? registedPages[identifier]?.init()
+    public final func dequeueReusablePage(withIdentifier identifier: String) -> Page {
+        return reuseablePages[identifier] ?? registedPages[identifier]!.init()
     }
+    
+    //MARK: - UIScrollViewDelegate 
     
     open override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         super.scrollViewDidScroll(scrollView)
         dynamicPage()
     }
     
-    /// Enter page to `reuseablePages`
-    ///
-    /// - Parameter page: Page instance
-    private func enterReuseQueue(_ oldPage: Page, withIndex index: Int) {
-        removeSubPage(oldPage)
-        reuseablePages[oldPage.reuseIdentifier] = oldPage
-        visiblePages[index] = nil
-    }
+    //MARK: - Private functaion
 }
