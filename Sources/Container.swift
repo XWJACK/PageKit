@@ -85,8 +85,6 @@ open class Container: UIView, UIScrollViewDelegate {
     open func reloadData() {
         numberOfPages = dataSource?.numberOfPages() ?? 0
         scrollView.contentSize = contentSize
-        //        nextIndex = defaultIndex
-        //        switching(toIndex: nextIndex, animated: false)
     }
     
     //MARK: - open function
@@ -96,16 +94,14 @@ open class Container: UIView, UIScrollViewDelegate {
     /// - Parameters:
     ///   - index: Next index
     ///   - animated: Animate
-//    open func switching(toIndex index: Int, animated: Bool = true) {
-//        nextIndex = index
-//        setContentOffset(pageFrame(byIndex: index).origin, animated: animated)
-//        currentIndex = index
-//    }
+    open func switching(toIndex index: Int, animated: Bool = true) {
+        scrollView.setContentOffset(frame(forPageAtIndex: index).origin, animated: animated)
+    }
     
     
     // MARK: - UIScrollViewDelegate
     
-    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
 //        outPut("scrollViewDidScroll")
 //        dynamicPage()
 //        syncScrollBlock?(contentOffset.x.double, contentSize.width.double)
@@ -150,44 +146,44 @@ open class Container: UIView, UIScrollViewDelegate {
 //                       to: isValid(index: nextIndex) ? pages[nextIndex] : nil, nextIndex: nextIndex,
 //                       completed: percent > 0 ? percent : -percent)
 //        pageContainerDelegate?.pageWillSwitch(from: currentIndex, to: nextIndex, completed: percent > 0 ? percent : -percent)
-    }
+//    }
     
 //    open func scrollNextIndex() -> Int {
 //        let index = Int(contentOffset.x / frame.width)
 //        return index < 0 ? .begin : index >= (dataSource?.numberOfPages() ?? 0) - 1 ?
 //    }
     
-    open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+//    open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
 //        outPut("scrollViewWillBeginDragging")
 //        currentIndex = getCurrentIndex(by: contentOffset.x)
-    }
+//    }
     
-    open func scrollViewWillEndDragging(_ scrollView: UIScrollView,
-                                                withVelocity velocity: CGPoint,
-                                                targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+//    open func scrollViewWillEndDragging(_ scrollView: UIScrollView,
+//                                                withVelocity velocity: CGPoint,
+//                                                targetContentOffset: UnsafeMutablePointer<CGPoint>) {
 //        outPut("scrollViewWillEndDragging")
 //        nextIndex = getCurrentIndex(by: targetContentOffset.pointee.x)
-    }
+//    }
     
-    open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+//    open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
 //        outPut("scrollViewDidEndDragging")
-    }
+//    }
     
-    open func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+//    open func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
 //        outPut("scrollViewWillBeginDecelerating")
-    }
+//    }
     
-    open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//    open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
 //        outPut("scrollViewDidEndDecelerating")
         
 //        endScroll()
-    }
+//    }
     
-    open func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+//    open func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
 //        outPut("scrollViewDidEndScrollingAnimation")
 //        isSetContentOffset = false
 //        endScroll()
-    }
+//    }
 //    func outPut(_ functionName: String) {
 //        print(functionName + " isTracking: " + isTracking.description + " isDragging: " + isDragging.description + " isDecelerating: " + isDecelerating.description)
 //    }
@@ -236,9 +232,7 @@ open class Container: UIView, UIScrollViewDelegate {
 //        return index >= 0 && index < numberOfPages
 //    }
     
-    
-    
-    
+
     
     
     
@@ -272,6 +266,25 @@ open class Container: UIView, UIScrollViewDelegate {
                       y: 0,
                       width: scrollView.frame.width,
                       height: scrollView.frame.height)
+    }
+    
+    /// Subclasses can override this method as needed to perform more precise layout of page
+    ///
+    /// - Parameters:
+    ///   - page: Page
+    ///   - index: Index
+    open func layoutPage(_ page: Page, withIndex index: Int) {
+        parse(page).frame = frame(forPageAtIndex: index)
+    }
+    
+    /// Load new page to container
+    ///
+    /// - Parameters:
+    ///   - newPage: New Page
+    ///   - index: Index
+    open func load(_ newPage: Page, withIndex index: Int)  {
+        addSubPage(newPage)
+        layoutPage(newPage, withIndex: index)
     }
     
     /// Check page is visible by index
@@ -323,9 +336,64 @@ open class Container: UIView, UIScrollViewDelegate {
     }
     
     
+    //MARK: - UIScrollViewDelegate
     
     
+    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+    }
     
+    open func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        
+    }
+    
+    open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        
+    }
+    
+    open func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        
+    }
+    
+    open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        
+    }
+    
+    
+    open func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        
+    }
+    
+    open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        
+    }
+    
+    
+    open func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        
+    }
+    
+    
+    open func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return nil
+    }
+    
+    open func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
+        
+    }
+    
+    open func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+        
+    }
+    
+    
+    open func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
+        return false
+    }
+    
+    open func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
+        
+    }
     
     
     
@@ -338,25 +406,6 @@ open class Container: UIView, UIScrollViewDelegate {
 //    }
     
     //MARK: - internal function
-    
-    /// Subclasses can override this method as needed to perform more precise layout of their pages
-    ///
-    /// - Parameters:
-    ///   - page: Page
-    ///   - index: Index
-//    open func layoutPage(_ page: Page, withIndex index: Int) {
-//        parse(page).frame = frame(forPageAtIndex: index)
-//    }
-
-    /// Add new page to container
-    ///
-    /// - Parameters:
-    ///   - newPage: New Page
-    ///   - index: Index
-//    open func load(_ newPage: Page, withIndex index: Int)  {
-//        addSubPage(newPage)
-//        layoutPage(newPage, withIndex: index)
-//    }
     
     //MARK: - private function
     

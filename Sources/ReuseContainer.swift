@@ -69,15 +69,9 @@ open class ReuseContainer: Container {
         }
     }
 
-    /// Load new page into contaienr
-    ///
-    /// - Parameters:
-    ///   - newPage: New page
-    ///   - index: Index for new page
-    open func load(_ newPage: Page, withIndex index: Int) {
-        addSubPage(newPage)
+    open override func load(_ newPage: Page, withIndex index: Int) {
+        super.load(newPage, withIndex: index)
         visiblePages[index] = newPage
-        parse(newPage).frame = frame(forPageAtIndex: index)
         reuseablePages[newPage.reuseIdentifier] = nil
     }
     
