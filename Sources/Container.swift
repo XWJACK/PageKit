@@ -22,8 +22,6 @@ public protocol ContainerDataSource: class {
 
 /// Base Container
 open class Container: UIView, UIScrollViewDelegate {
-    
-    //MARK: - open property
 
     /// Data source for container
     open weak var dataSource: ContainerDataSource?
@@ -53,8 +51,6 @@ open class Container: UIView, UIScrollViewDelegate {
     
     /// Total pages number
     open private(set) var numberOfPages: Int = 0
-    
-    //MARK: - public function
     
     public override init(frame: CGRect) {
         scrollView = UIScrollView(frame: frame)
@@ -87,8 +83,6 @@ open class Container: UIView, UIScrollViewDelegate {
         scrollView.contentSize = contentSize
     }
     
-    //MARK: - open function
-    
     /// Switch to index with animate
     ///
     /// - Parameters:
@@ -97,9 +91,6 @@ open class Container: UIView, UIScrollViewDelegate {
     open func switching(toIndex index: Int, animated: Bool = true) {
         scrollView.setContentOffset(frame(forPageAtIndex: index).origin, animated: animated)
     }
-    
-    
-    // MARK: - UIScrollViewDelegate
     
 //    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
 //        outPut("scrollViewDidScroll")
@@ -187,7 +178,6 @@ open class Container: UIView, UIScrollViewDelegate {
 //    func outPut(_ functionName: String) {
 //        print(functionName + " isTracking: " + isTracking.description + " isDragging: " + isDragging.description + " isDecelerating: " + isDecelerating.description)
 //    }
-    //MARK: - open function
     
     /// Page will scroll from index to next index, Default do nothing.
     ///
@@ -220,9 +210,6 @@ open class Container: UIView, UIScrollViewDelegate {
 //    open func containerWillLoadNextPage(with index: Int, completed percent: CGFloat) -> Bool {
 //        return true
 //    }
-    
-    
-    //MARK: - public final function
     
     /// Is valid index for pages
     ///
@@ -287,6 +274,8 @@ open class Container: UIView, UIScrollViewDelegate {
         layoutPage(newPage, withIndex: index)
     }
     
+    //MARK: - Public final funcation
+    
     /// Check page is visible by index
     ///
     /// - Parameter index: Index
@@ -339,17 +328,15 @@ open class Container: UIView, UIScrollViewDelegate {
     //MARK: - UIScrollViewDelegate
     
     
+    open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        
+    }
+    
     open func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
     }
     
-    open func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        
-    }
-    
-    open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        
-    }
+    //MARK: - UIScrollViewDelegate Dragging
     
     open func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         
@@ -359,6 +346,7 @@ open class Container: UIView, UIScrollViewDelegate {
         
     }
     
+    //MARK: - UIScrollViewDelegate Deceleration
     
     open func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
         
@@ -373,9 +361,24 @@ open class Container: UIView, UIScrollViewDelegate {
         
     }
     
+    //MARK: - UIScrollViewDelegate ScrollToTop
+    
+    open func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
+        return true
+    }
+    
+    open func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
+        
+    }
+    
+    //MARK: - UIScrollViewDelegate Zooming
     
     open func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return nil
+    }
+    
+    open func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        
     }
     
     open func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
@@ -385,29 +388,6 @@ open class Container: UIView, UIScrollViewDelegate {
     open func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
         
     }
-    
-    
-    open func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
-        return false
-    }
-    
-    open func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
-        
-    }
-    
-    
-    
-    
-    
-    
-//    public final func pageForIndex(at index: Int) -> Page? {
-//        guard isValid(index: index) else { return nil }
-//        return visiblePages[index]
-//    }
-    
-    //MARK: - internal function
-    
-    //MARK: - private function
     
     /// Scroll did end scroll
 //    private func endScroll() {

@@ -115,6 +115,4 @@ open class ReuseContainer: Container {
         super.scrollViewDidScroll(scrollView)
         dynamicPage()
     }
-    
-    //MARK: - Private functaion
 }
