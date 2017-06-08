@@ -10,19 +10,9 @@ import UIKit
 
 public extension Int {
     
-    /// Begin Page
-//    public static let begin: Int = -1
-    
-    /// End Page
-//    public static let end: Int = -2
-    
     /// Easy to convert Int to CGFloat
     public var cgfloat: CGFloat { return CGFloat(self) }
 }
-
-//public extension CGFloat {
-//    public var double: Double { return Double(self) }
-//}
 
 public extension CGRect {
     func resetBy(_ inset: UIEdgeInsets) -> CGRect {

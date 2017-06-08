@@ -11,20 +11,11 @@ import UIKit
 /// Define page
 public typealias Page = PageRepresentable
 
-/// Base Container DataSource
-public protocol ContainerDataSource: class {
-    
-    /// Asks for number of page
-    ///
-    /// - Returns: Number of page
-    func numberOfPages() -> Int
-}
-
 /// Base Container
 open class Container: UIView, UIScrollViewDelegate {
-
-    /// Data source for container
-    open weak var dataSource: ContainerDataSource?
+    
+    /// ScrollView
+    public let scrollView: UIScrollView
     
     /// Parent view controller
     open weak var parentViewController: UIViewController?
@@ -35,19 +26,6 @@ open class Container: UIView, UIScrollViewDelegate {
     /// ContentSize for container
     open var contentSize: CGSize { return CGSize(width: scrollView.frame.width * numberOfPages.cgfloat,
                                                  height: scrollView.frame.height) }
-    
-    /// ScrollView
-    public let scrollView: UIScrollView
-    
-    /// Default index for first load or reload page
-//    open var defaultIndex: Int = 0
-    
-    /// Current index
-//    open internal(set) var currentIndex: Int = .begin
-    
-    /// Page will switch to next index
-//    private var nextIndex: Int = .begin
-//    private var stepIndex: Int = 0
     
     /// Total pages number
     open private(set) var numberOfPages: Int = 0
@@ -79,7 +57,7 @@ open class Container: UIView, UIScrollViewDelegate {
     ///
     /// Same with using table view
     open func reloadData() {
-        numberOfPages = dataSource?.numberOfPages() ?? 0
+        numberOfPages = reloadNumberOfPages()
         scrollView.contentSize = contentSize
     }
     
@@ -92,6 +70,12 @@ open class Container: UIView, UIScrollViewDelegate {
         scrollView.setContentOffset(frame(forPageAtIndex: index).origin, animated: animated)
     }
     
+    /// Override this function to custom number of page, default is zero.
+    ///
+    /// - Returns: Number of pages
+    open func reloadNumberOfPages() -> Int {
+        return 0
+    }
 //    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
 //        outPut("scrollViewDidScroll")
 //        dynamicPage()

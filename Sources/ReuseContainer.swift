@@ -6,18 +6,7 @@
 //  Copyright © 2017 Jack. All rights reserved.
 //
 
-import Foundation
-
-/// Data source for container
-public protocol ReuseContainerDataSource: ContainerDataSource {
-    /// Asks for page by given index
-    ///
-    /// - Parameters:
-    ///   - container: Container instanse
-    ///   - index: Index
-    /// - Returns: Page
-    func container(_ container: ReuseContainer, pageForIndexAt index: Int) -> Page
-}
+import UIKit
 
 /// Container with reuseable
 open class ReuseContainer: Container {
@@ -55,20 +44,29 @@ open class ReuseContainer: Container {
         ///    true              false       true              false
         /// (new page)             (do nothing)            (remove old page)
         ///*********************************************************************
-        for (index, page) in visiblePages.enumerated() {
+        for (index, oldPage) in visiblePages.enumerated() {
             
             if visibleIndexs.contains(index),
-                page == nil {
-                load((dataSource as! ReuseContainerDataSource).container(self, pageForIndexAt: index), withIndex: index)
+                oldPage == nil,
+                let newPage = page(forIndexAt: index) {
+                load(newPage, withIndex: index)
             }
             
             if !visibleIndexs.contains(index),
-                let inVisiblePage = page {
+                let inVisiblePage = oldPage {
                 remove(inVisiblePage, withIndex: index)
             }
         }
     }
 
+    /// Override this function to custom page by index
+    ///
+    /// - Parameter index: Index
+    /// - Returns: Page
+    func page(forIndexAt index: Int) -> Page? {
+        return nil
+    }
+    
     open override func load(_ newPage: Page, withIndex index: Int) {
         super.load(newPage, withIndex: index)
         visiblePages[index] = newPage
