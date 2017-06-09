@@ -8,26 +8,23 @@
 
 import UIKit
 
-open class CycleContainer: Container {
+open class CycleContainer: ReuseContainer {
     
-    private var pages: [Page?] = []
+    open override var contentSize: CGSize { return CGSize(width: scrollView.frame.width * 3,
+                                                          height: scrollView.frame.height) }
     private var realIndex: Int = 0
     
     open override func reloadData() {
         super.reloadData()
         
-        pages.filter{ $0 != nil }.forEach{ removeSubPage($0!) }
-        pages = Array(repeating: nil, count: numberOfPages)
-        pages.reserveCapacity(numberOfPages)
-        for index in [numberOfPages - 1, 0, 1] {
-            pages[index] = page(forIndexAt: index)
-        }
-        
         switching(toIndex: 1, animated: false)
     }
     
-    open override func reloadNumberOfPages() -> Int {
-        return 3
+    open override func frame(forPageAtIndex index: Int) -> CGRect {
+        return CGRect(x: scrollView.frame.width * realIndex.cgfloat,
+                      y: 0,
+                      width: scrollView.frame.width,
+                      height: scrollView.frame.height)
     }
     
     open override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
