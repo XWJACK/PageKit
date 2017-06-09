@@ -58,14 +58,6 @@ open class ReuseContainer: Container {
             }
         }
     }
-
-    /// Override this function to custom page by index
-    ///
-    /// - Parameter index: Index
-    /// - Returns: Page
-    func page(forIndexAt index: Int) -> Page? {
-        return nil
-    }
     
     open override func load(_ newPage: Page, withIndex index: Int) {
         super.load(newPage, withIndex: index)

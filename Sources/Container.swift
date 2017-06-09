@@ -76,6 +76,14 @@ open class Container: UIView, UIScrollViewDelegate {
     open func reloadNumberOfPages() -> Int {
         return 0
     }
+    
+    /// Override this function to custom page by index
+    ///
+    /// - Parameter index: Index
+    /// - Returns: Page
+    open func page(forIndexAt index: Int) -> Page? {
+        return nil
+    }
 //    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
 //        outPut("scrollViewDidScroll")
 //        dynamicPage()
@@ -258,13 +266,11 @@ open class Container: UIView, UIScrollViewDelegate {
         layoutPage(newPage, withIndex: index)
     }
     
-    //MARK: - Public final funcation
-    
     /// Check page is visible by index
     ///
     /// - Parameter index: Index
     /// - Returns: Is index page is visible
-    public final func isVisible(forPageAtIndex index: Int) -> Bool {
+    open func isVisible(forPageAtIndex index: Int) -> Bool {
         return CGRect(x: scrollView.contentOffset.x,
                       y: scrollView.contentOffset.y,
                       width: scrollView.frame.width,
@@ -275,7 +281,7 @@ open class Container: UIView, UIScrollViewDelegate {
     ///
     /// - Parameter page: Page
     /// - Returns: UIView
-    public final func parse(_ page: Page) -> UIView {
+    open func parse(_ page: Page) -> UIView {
         switch page.pageType {
         case .view(let view): return view
         case .viewController(let controller): return controller.view
@@ -285,7 +291,7 @@ open class Container: UIView, UIScrollViewDelegate {
     /// Add page to Container
     ///
     /// - Parameter page: Page
-    public final func addSubPage(_ page: Page) {
+    open func addSubPage(_ page: Page) {
         switch page.pageType {
         case .view(let view):
             scrollView.addSubview(view)
@@ -298,7 +304,7 @@ open class Container: UIView, UIScrollViewDelegate {
     /// Remove page from Container
     ///
     /// - Parameter page: Page
-    public final func removeSubPage(_ page: Page) {
+    open func removeSubPage(_ page: Page) {
         switch page.pageType {
         case .view(let view):
             view.removeFromSuperview()
