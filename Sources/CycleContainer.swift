@@ -16,23 +16,19 @@ open class CycleContainer: ReuseContainer {
     
     open override func reloadData() {
         super.reloadData()
-        
-        switching(toIndex: 1, animated: false)
     }
     
-    open override func frame(forPageAtIndex index: Int) -> CGRect {
-        return CGRect(x: scrollView.frame.width * realIndex.cgfloat,
-                      y: 0,
-                      width: scrollView.frame.width,
-                      height: scrollView.frame.height)
-    }
-    
-    open override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let index = super.index(withOffset: scrollView.contentOffset.x)
-        if index == 0 {
-            if realIndex == 0 { realIndex = numberOfPages - 1 }
-            else { realIndex -= 1 }
-        } else if index == 2 { realIndex = (realIndex + 1) % numberOfPages }
+    open override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        super.scrollViewDidScroll(scrollView)
+//        scrollView.setContentOffset(<#T##contentOffset: CGPoint##CGPoint#>, animated: false)
         switching(toIndex: 1, animated: false)
     }
+//    open override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//        let index = super.index(withOffset: scrollView.contentOffset.x)
+//        if index == 0 {
+//            if realIndex == 0 { realIndex = numberOfPages - 1 }
+//            else { realIndex -= 1 }
+//        } else if index == 2 { realIndex = (realIndex + 1) % numberOfPages }
+//        switching(toIndex: 1, animated: false)
+//    }
 }

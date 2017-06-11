@@ -30,6 +30,8 @@ open class Container: UIView, UIScrollViewDelegate {
     /// Total pages number
     open private(set) var numberOfPages: Int = 0
     
+    //MARK: - Super function
+    
     public override init(frame: CGRect) {
         scrollView = UIScrollView(frame: frame)
         super.init(frame: frame)
@@ -53,22 +55,53 @@ open class Container: UIView, UIScrollViewDelegate {
         reloadData()
     }
     
+    //MARK: - Enter function
+    
     /// Call this method to reload all the data that is used to construct the container.
     ///
     /// Same with using table view
     open func reloadData() {
+        resetContainer()
         numberOfPages = reloadNumberOfPages()
         scrollView.contentSize = contentSize
     }
     
-    /// Switch to index with animate
+    /// Reset container
+    open func resetContainer() {
+        
+    }
+    
+    //MARK: - Core control
+    
+    /// Subclasses can override this method as needed to perform more precise layout of page
     ///
     /// - Parameters:
-    ///   - index: Next index
-    ///   - animated: Animate
-    open func switching(toIndex index: Int, animated: Bool = true) {
-        scrollView.setContentOffset(frame(forPageAtIndex: index).origin, animated: animated)
+    ///   - page: Page
+    ///   - index: Index
+    open func layoutPage(_ page: Page, withIndex index: Int) {
+        parse(page).frame = frame(forPageAtIndex: index)
     }
+    
+    /// Add new page to container
+    ///
+    /// - Parameters:
+    ///   - newPage: New Page
+    ///   - index: Index
+    open func add(newPage page: Page, withIndex index: Int)  {
+        addSubPage(page)
+        layoutPage(page, withIndex: index)
+    }
+    
+    /// Remove old page from container
+    ///
+    /// - Parameters:
+    ///   - oldPage: Old page
+    ///   - index: Index for old page
+    open func remove(oldPage page: Page, withIndex index: Int) {
+        removeSubPage(page)
+    }
+    
+    //MARK: - DataSource
     
     /// Override this function to custom number of page, default is zero.
     ///
@@ -84,6 +117,7 @@ open class Container: UIView, UIScrollViewDelegate {
     open func page(forIndexAt index: Int) -> Page? {
         return nil
     }
+    
 //    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
 //        outPut("scrollViewDidScroll")
 //        dynamicPage()
@@ -211,9 +245,7 @@ open class Container: UIView, UIScrollViewDelegate {
 //        return index >= 0 && index < numberOfPages
 //    }
     
-
-    
-    
+    //MARK: - Custom override 
     
     /// Override this function to custom index by offSet
     ///
@@ -247,25 +279,6 @@ open class Container: UIView, UIScrollViewDelegate {
                       height: scrollView.frame.height)
     }
     
-    /// Subclasses can override this method as needed to perform more precise layout of page
-    ///
-    /// - Parameters:
-    ///   - page: Page
-    ///   - index: Index
-    open func layoutPage(_ page: Page, withIndex index: Int) {
-        parse(page).frame = frame(forPageAtIndex: index)
-    }
-    
-    /// Load new page to container
-    ///
-    /// - Parameters:
-    ///   - newPage: New Page
-    ///   - index: Index
-    open func load(_ newPage: Page, withIndex index: Int)  {
-        addSubPage(newPage)
-        layoutPage(newPage, withIndex: index)
-    }
-    
     /// Check page is visible by index
     ///
     /// - Parameter index: Index
@@ -276,6 +289,8 @@ open class Container: UIView, UIScrollViewDelegate {
                       width: scrollView.frame.width,
                       height: scrollView.frame.height).intersects(frame(forPageAtIndex: index))
     }
+    
+    //MARK: - Not suggest override
     
     /// Parse page to UIView
     ///
@@ -314,6 +329,14 @@ open class Container: UIView, UIScrollViewDelegate {
         }
     }
     
+    /// Switch to index with animate
+    ///
+    /// - Parameters:
+    ///   - index: Next index
+    ///   - animated: Animate
+    open func switching(toIndex index: Int, animated: Bool = true) {
+        scrollView.setContentOffset(frame(forPageAtIndex: index).origin, animated: animated)
+    }
     
     //MARK: - UIScrollViewDelegate
     

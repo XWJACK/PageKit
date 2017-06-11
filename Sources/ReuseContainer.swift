@@ -20,19 +20,7 @@ open class ReuseContainer: Container {
     /// Visible pages
     private var visiblePages: [Page?] = []
     
-    //MARK: - Open function
-    
-    /// Call this method to reload all the data that is used to construct the container.
-    ///
-    /// Same with using table view
-    open override func reloadData() {
-        super.reloadData()
-        reuseablePages = [:]
-        visiblePages.filter{ $0 != nil }.forEach{ removeSubPage($0!) }
-        visiblePages = Array(repeating: nil, count: numberOfPages)
-        visiblePages.reserveCapacity(numberOfPages)
-        dynamicPage()
-    }
+    //MARK: - Custom function
     
     /// Dynamic load or remove pages
     open func dynamicPage() {
@@ -49,31 +37,14 @@ open class ReuseContainer: Container {
             if visibleIndexs.contains(index),
                 oldPage == nil,
                 let newPage = page(forIndexAt: index) {
-                load(newPage, withIndex: index)
+                add(newPage: newPage, withIndex: index)
             }
             
             if !visibleIndexs.contains(index),
                 let inVisiblePage = oldPage {
-                remove(inVisiblePage, withIndex: index)
+                remove(oldPage: inVisiblePage, withIndex: index)
             }
         }
-    }
-    
-    open override func load(_ newPage: Page, withIndex index: Int) {
-        super.load(newPage, withIndex: index)
-        visiblePages[index] = newPage
-        reuseablePages[newPage.reuseIdentifier] = nil
-    }
-    
-    /// Remove old page from container
-    ///
-    /// - Parameters:
-    ///   - oldPage: Old page
-    ///   - index: Index for old page
-    open func remove(_ oldPage: Page, withIndex index: Int) {
-        removeSubPage(oldPage)
-        reuseablePages[oldPage.reuseIdentifier] = oldPage
-        visiblePages[index] = nil
     }
     
     //MARK: - Public final function
@@ -97,6 +68,46 @@ open class ReuseContainer: Container {
     /// - Returns: Page with identifier, nil if not register page
     public final func dequeueReusablePage(withIdentifier identifier: String) -> Page {
         return reuseablePages[identifier] ?? registedPages[identifier]!.init()
+    }
+    
+    //MARK: - Override function
+    
+    /// Call this method to reload all the data that is used to construct the container.
+    ///
+    /// Same with using table view
+    open override func reloadData() {
+        super.reloadData()
+        dynamicPage()
+    }
+    
+    /// Reset container
+    open override func resetContainer() {
+        reuseablePages = [:]
+        visiblePages.filter{ $0 != nil }.forEach{ removeSubPage($0!) }
+        visiblePages = Array(repeating: nil, count: numberOfPages)
+        visiblePages.reserveCapacity(numberOfPages)
+    }
+    
+    /// Add new page to container
+    ///
+    /// - Parameters:
+    ///   - page: New Page
+    ///   - index: Index
+    open override func add(newPage page: Page, withIndex index: Int) {
+        super.add(newPage: page, withIndex: index)
+        visiblePages[index] = page
+        reuseablePages[page.reuseIdentifier] = nil
+    }
+    
+    /// Remove old page from container
+    ///
+    /// - Parameters:
+    ///   - page: Old page
+    ///   - index: Index for old page
+    open override func remove(oldPage page: Page, withIndex index: Int) {
+        super.remove(oldPage: page, withIndex: index)
+        reuseablePages[page.reuseIdentifier] = page
+        visiblePages[index] = nil
     }
     
     //MARK: - UIScrollViewDelegate 
