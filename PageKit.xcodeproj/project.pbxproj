@@ -14,6 +14,7 @@
 		0411A80B1EA0C9F00029E19C /* TitleContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0411A8041EA0C9F00029E19C /* TitleContainer.swift */; };
 		0430BD161EE9204D00C2738A /* ViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0430BD151EE9204D00C2738A /* ViewPager.swift */; };
 		0430BD181EE9447400C2738A /* CycleContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0430BD171EE9447400C2738A /* CycleContainer.swift */; };
+		0486C9771EEB9A72001573F3 /* GuidePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0486C9761EEB9A72001573F3 /* GuidePage.swift */; };
 		04C279B71EAD96AE003299BA /* PageKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 0411A7FA1EA0C9250029E19C /* PageKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04C279D11EADA81B003299BA /* ReuseContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C279D01EADA81B003299BA /* ReuseContainer.swift */; };
 /* End PBXBuildFile section */
@@ -40,6 +41,7 @@
 		0411A8041EA0C9F00029E19C /* TitleContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleContainer.swift; sourceTree = "<group>"; };
 		0430BD151EE9204D00C2738A /* ViewPager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewPager.swift; sourceTree = "<group>"; };
 		0430BD171EE9447400C2738A /* CycleContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CycleContainer.swift; sourceTree = "<group>"; };
+		0486C9761EEB9A72001573F3 /* GuidePage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuidePage.swift; sourceTree = "<group>"; };
 		04C279D01EADA81B003299BA /* ReuseContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReuseContainer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -124,6 +126,7 @@
 				0411A7FF1EA0C9F00029E19C /* Extension.swift */,
 				0411A8041EA0C9F00029E19C /* TitleContainer.swift */,
 				0430BD151EE9204D00C2738A /* ViewPager.swift */,
+				0486C9761EEB9A72001573F3 /* GuidePage.swift */,
 			);
 			name = Features;
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 				0430BD161EE9204D00C2738A /* ViewPager.swift in Sources */,
 				0411A80B1EA0C9F00029E19C /* TitleContainer.swift in Sources */,
 				0430BD181EE9447400C2738A /* CycleContainer.swift in Sources */,
+				0486C9771EEB9A72001573F3 /* GuidePage.swift in Sources */,
 				0411A8051EA0C9F00029E19C /* Container.swift in Sources */,
 				0411A8061EA0C9F00029E19C /* Extension.swift in Sources */,
 			);
