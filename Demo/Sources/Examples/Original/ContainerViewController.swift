@@ -18,9 +18,8 @@ class ContainerViewController: BaseContainerViewController<Container>, Container
     
     override func configContainer() {
         super.configContainer()
-        
-        container.dataSource = self
     }
+    
     func numberOfPages() -> Int {
         return 10
     }

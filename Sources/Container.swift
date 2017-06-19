@@ -247,7 +247,7 @@ open class Container: UIView, UIScrollViewDelegate {
     
     //MARK: - Custom override 
     
-    /// Override this function to custom index by offSet
+    /// Override this function to custom index by offSet.
     ///
     /// - Parameter offSet: Content offset x
     /// - Returns: Index
@@ -268,7 +268,7 @@ open class Container: UIView, UIScrollViewDelegate {
         return indexs
     }
     
-    /// Override this function to custom page frame if need
+    /// Override this function to custom page frame at container.
     ///
     /// - Parameter forPageAtIndex: Index
     /// - Returns: Frame for page
@@ -279,7 +279,7 @@ open class Container: UIView, UIScrollViewDelegate {
                       height: scrollView.frame.height)
     }
     
-    /// Check page is visible by index
+    /// Check page is visible by index.
     ///
     /// - Parameter index: Index
     /// - Returns: Is index page is visible
@@ -401,11 +401,4 @@ open class Container: UIView, UIScrollViewDelegate {
     open func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
         
     }
-    
-    /// Scroll did end scroll
-//    private func endScroll() {
-//        let oldCurrentIndex = currentIndex
-//        let newCurrentIndex = getCurrentIndex()
-//        containerDidEndSwitching(from: oldCurrentIndex, to: newCurrentIndex)
-//    }
 }
