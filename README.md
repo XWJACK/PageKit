@@ -4,7 +4,7 @@
 ![iOS 8.0+](https://img.shields.io/badge/iOS-8.0%2B-blue.svg)
 ![Swift 3.0+](https://img.shields.io/badge/Swift-3.0%2B-orange.svg)
 ![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-brightgreen.svg)
-![pod](https://img.shields.io/badge/pod-v0.2.0-brightgreen.svg)
+[![Version](https://img.shields.io/cocoapods/v/PageKit.svg?style=flat)](https://cocoapods.org/pods/PageKit)
 
 ## Overview
 
