@@ -23,5 +23,42 @@
 
 import UIKit
 
+public protocol GuidePageDatasource: class {
+    func numberOfPages() -> Int
+    func guidePage(_ guidePage: GuidePage, pageForIndexAt index: Int) -> Page
+}
+
 open class GuidePage: ReuseContainer {
+    
+    open weak var dataSource: GuidePageDatasource? = nil
+    
+    open let pageControl = UIPageControl()
+    
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        addSubview(pageControl)
+    }
+    
+    open override func reloadNumberOfPages() -> Int {
+        let number = dataSource?.numberOfPages() ?? 0
+        pageControl.numberOfPages = number
+        return number
+    }
+    
+    open override func page(forIndexAt index: Int) -> Page? {
+        return dataSource?.guidePage(self, pageForIndexAt: index)
+    }
+    
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        pageControl.sizeToFit()
+        pageControl.frame.origin = CGPoint(x: (frame.size.width - pageControl.frame.size.width) / 2,
+                                           y: frame.size.height - pageControl.frame.size.height)
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 }

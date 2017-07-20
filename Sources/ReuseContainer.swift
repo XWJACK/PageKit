@@ -70,7 +70,8 @@ open class ReuseContainer: Container {
     ///
     /// - Parameters:
     ///   - pageClass: The class of a page that you want to use in the container.
-    ///   - identifier: The reuse identifier for the page. This parameter default is class name if not be set. This parameter can be set by youself, but it must not be an empty string.
+    ///   - identifier: The reuse identifier for the page. This parameter default is class name if not be set. 
+    ///                 This parameter can be set by youself, but it must not be an empty string.
     public final func register(_ pageClass: Page.Type, forPageReuseIdentifier identifier: String? = nil) {
         registedPages[identifier ?? pageClass.reuseIdentifier] = pageClass
     }
