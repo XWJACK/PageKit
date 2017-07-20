@@ -12,8 +12,8 @@ import PageKit
 struct ExampleList {
     var examples: [(title: String, row: [(title: String, controllerType: UIViewController.Type)])] = []
     init() {
-        examples.append(("Original", [("Container", ContainerViewController.self),
-                                      ("ReuseContainer", ReuseContainerViewController.self)]))
+        examples.append(("Original", [("GuidePage", GuidePageViewController.self)/*("Container", ContainerViewController.self),
+                                      ("ReuseContainer", ReuseContainerViewController.self)*/]))
     }
 }
 
