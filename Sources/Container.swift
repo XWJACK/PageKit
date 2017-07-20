@@ -355,7 +355,6 @@ open class Container: UIView, UIScrollViewDelegate {
     
     //MARK: - UIScrollViewDelegate
     
-    
     open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         
     }
@@ -383,7 +382,6 @@ open class Container: UIView, UIScrollViewDelegate {
     open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         
     }
-    
     
     open func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         

@@ -28,6 +28,7 @@ public protocol GuidePageDatasource: class {
     func guidePage(_ guidePage: GuidePage, pageForIndexAt index: Int) -> Page
 }
 
+/// Guide page with system page control.
 open class GuidePage: ReuseContainer {
     
     open weak var dataSource: GuidePageDatasource? = nil
@@ -61,4 +62,7 @@ open class GuidePage: ReuseContainer {
         fatalError("init(coder:) has not been implemented")
     }
     
+    open override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        pageControl.currentPage = index(withOffset: scrollView.contentOffset.x)
+    }
 }
