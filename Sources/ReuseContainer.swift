@@ -1,23 +1,27 @@
 //
 //  ReuseContainer.swift
-//  PageKit
 //
-//  Created by Jack on 4/24/17.
-//  Copyright © 2017 Jack. All rights reserved.
+//  Copyright (c) 2017 Jack
 //
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in all
+//  copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//  SOFTWARE.
 
-import Foundation
-
-/// Data source for container
-public protocol ReuseContainerDataSource: ContainerDataSource {
-    /// Asks for page by given index
-    ///
-    /// - Parameters:
-    ///   - container: Container instanse
-    ///   - index: Index
-    /// - Returns: Page
-    func container(_ container: ReuseContainer, pageForIndexAt index: Int) -> Page
-}
+import UIKit
 
 /// Container with reuseable
 open class ReuseContainer: Container {
@@ -31,19 +35,7 @@ open class ReuseContainer: Container {
     /// Visible pages
     private var visiblePages: [Page?] = []
     
-    //MARK: - Open function
-    
-    /// Call this method to reload all the data that is used to construct the container.
-    ///
-    /// Same with using table view
-    open override func reloadData() {
-        super.reloadData()
-        reuseablePages = [:]
-        visiblePages.filter{ $0 != nil }.forEach{ removeSubPage($0!) }
-        visiblePages = Array(repeating: nil, count: numberOfPages)
-        visiblePages.reserveCapacity(numberOfPages)
-        dynamicPage()
-    }
+    //MARK: - Custom function
     
     /// Dynamic load or remove pages
     open func dynamicPage() {
@@ -55,41 +47,19 @@ open class ReuseContainer: Container {
         ///    true              false       true              false
         /// (new page)             (do nothing)            (remove old page)
         ///*********************************************************************
-        for (index, page) in visiblePages.enumerated() {
+        for (index, oldPage) in visiblePages.enumerated() {
             
             if visibleIndexs.contains(index),
-                page == nil {
-                load((dataSource as! ReuseContainerDataSource).container(self, pageForIndexAt: index), withIndex: index)
+                oldPage == nil,
+                let newPage = page(forIndexAt: index) {
+                add(newPage: newPage, withIndex: index)
             }
             
             if !visibleIndexs.contains(index),
-                let inVisiblePage = page {
-                remove(inVisiblePage, withIndex: index)
+                let inVisiblePage = oldPage {
+                remove(oldPage: inVisiblePage, withIndex: index)
             }
         }
-    }
-
-    /// Load new page into contaienr
-    ///
-    /// - Parameters:
-    ///   - newPage: New page
-    ///   - index: Index for new page
-    open func load(_ newPage: Page, withIndex index: Int) {
-        addSubPage(newPage)
-        visiblePages[index] = newPage
-        parse(newPage).frame = frame(forPageAtIndex: index)
-        reuseablePages[newPage.reuseIdentifier] = nil
-    }
-    
-    /// Remove old page from container
-    ///
-    /// - Parameters:
-    ///   - oldPage: Old page
-    ///   - index: Index for old page
-    open func remove(_ oldPage: Page, withIndex index: Int) {
-        removeSubPage(oldPage)
-        reuseablePages[oldPage.reuseIdentifier] = oldPage
-        visiblePages[index] = nil
     }
     
     //MARK: - Public final function
@@ -100,7 +70,8 @@ open class ReuseContainer: Container {
     ///
     /// - Parameters:
     ///   - pageClass: The class of a page that you want to use in the container.
-    ///   - identifier: The reuse identifier for the page. This parameter default is class name if not be set. This parameter can be set by youself, but it must not be an empty string.
+    ///   - identifier: The reuse identifier for the page. This parameter default is class name if not be set. 
+    ///                 This parameter can be set by youself, but it must not be an empty string.
     public final func register(_ pageClass: Page.Type, forPageReuseIdentifier identifier: String? = nil) {
         registedPages[identifier ?? pageClass.reuseIdentifier] = pageClass
     }
@@ -115,12 +86,50 @@ open class ReuseContainer: Container {
         return reuseablePages[identifier] ?? registedPages[identifier]!.init()
     }
     
+    //MARK: - Override function
+    
+    /// Call this method to reload all the data that is used to construct the container.
+    ///
+    /// Same with using table view
+    open override func reloadData() {
+        super.reloadData()
+        dynamicPage()
+    }
+    
+    /// Reset container
+    open override func resetContainer() {
+        reuseablePages = [:]
+        visiblePages.filter{ $0 != nil }.forEach{ removeSubPage($0!) }
+        visiblePages = Array(repeating: nil, count: numberOfPages)
+        visiblePages.reserveCapacity(numberOfPages)
+    }
+    
+    /// Add new page to container
+    ///
+    /// - Parameters:
+    ///   - page: New Page
+    ///   - index: Index
+    open override func add(newPage page: Page, withIndex index: Int) {
+        super.add(newPage: page, withIndex: index)
+        visiblePages[index] = page
+        reuseablePages[page.reuseIdentifier] = nil
+    }
+    
+    /// Remove old page from container
+    ///
+    /// - Parameters:
+    ///   - page: Old page
+    ///   - index: Index for old page
+    open override func remove(oldPage page: Page, withIndex index: Int) {
+        super.remove(oldPage: page, withIndex: index)
+        reuseablePages[page.reuseIdentifier] = page
+        visiblePages[index] = nil
+    }
+    
     //MARK: - UIScrollViewDelegate 
     
     open override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         super.scrollViewDidScroll(scrollView)
         dynamicPage()
     }
-    
-    //MARK: - Private functaion
 }

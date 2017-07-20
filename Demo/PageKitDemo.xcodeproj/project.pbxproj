@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		047099511EA8852300857315 /* ParallaxContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047099501EA8852300857315 /* ParallaxContainerViewController.swift */; };
-		047099531EA8857000857315 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047099521EA8857000857315 /* ContainerViewController.swift */; };
+		045AD1DF1F20849A008A9375 /* GuidePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045AD1DE1F20849A008A9375 /* GuidePageViewController.swift */; };
+		045AD1E51F2085BE008A9375 /* TestPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045AD1E41F2085BE008A9375 /* TestPageViewController.swift */; };
+		045AD1E71F208626008A9375 /* TestPageImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045AD1E61F208626008A9375 /* TestPageImageView.swift */; };
 		04A36C121E909C7900A3B26F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A36C0F1E909C3600A3B26F /* ViewController.swift */; };
 		04A36C131E909C7D00A3B26F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A36C081E909C3600A3B26F /* AppDelegate.swift */; };
 		04A36C141E909DB400A3B26F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04A36C091E909C3600A3B26F /* Assets.xcassets */; };
@@ -17,7 +18,6 @@
 		04A36C411E90C2C300A3B26F /* PageKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A36C401E90C29E00A3B26F /* PageKit.framework */; };
 		04A36C421E90C2C300A3B26F /* PageKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04A36C401E90C29E00A3B26F /* PageKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04C279D51EADB337003299BA /* BaseContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C279D41EADB337003299BA /* BaseContainerViewController.swift */; };
-		04F846951EA0D4F000F922D2 /* ReuseContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F846941EA0D4F000F922D2 /* ReuseContainerViewController.swift */; };
 		04F846971EA0D55C00F922D2 /* ExampleList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F846961EA0D55C00F922D2 /* ExampleList.swift */; };
 		8CBFCD72EF0DE7B37221F765 /* Pods_PageKitDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26C0F7CADFEB36C6BE990C8 /* Pods_PageKitDemo.framework */; };
 /* End PBXBuildFile section */
@@ -61,6 +61,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		045AD1DE1F20849A008A9375 /* GuidePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GuidePageViewController.swift; path = Examples/Original/GuidePageViewController.swift; sourceTree = "<group>"; };
+		045AD1E41F2085BE008A9375 /* TestPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestPageViewController.swift; sourceTree = "<group>"; };
+		045AD1E61F208626008A9375 /* TestPageImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestPageImageView.swift; sourceTree = "<group>"; };
 		047099501EA8852300857315 /* ParallaxContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParallaxContainerViewController.swift; path = Examples/Original/ParallaxContainerViewController.swift; sourceTree = "<group>"; };
 		047099521EA8857000857315 /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContainerViewController.swift; path = Examples/Original/ContainerViewController.swift; sourceTree = "<group>"; };
 		047099541EA8868500857315 /* ExampleList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = ExampleList.json; path = Examples/ExampleList.json; sourceTree = "<group>"; };
@@ -169,6 +172,8 @@
 			children = (
 				04F846961EA0D55C00F922D2 /* ExampleList.swift */,
 				04C279D41EADB337003299BA /* BaseContainerViewController.swift */,
+				045AD1E61F208626008A9375 /* TestPageImageView.swift */,
+				045AD1E41F2085BE008A9375 /* TestPageViewController.swift */,
 				04F846911EA0D49100F922D2 /* Original */,
 				047099541EA8868500857315 /* ExampleList.json */,
 			);
@@ -181,6 +186,7 @@
 				047099521EA8857000857315 /* ContainerViewController.swift */,
 				04F846941EA0D4F000F922D2 /* ReuseContainerViewController.swift */,
 				047099501EA8852300857315 /* ParallaxContainerViewController.swift */,
+				045AD1DE1F20849A008A9375 /* GuidePageViewController.swift */,
 			);
 			name = Original;
 			sourceTree = "<group>";
@@ -314,7 +320,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		64635BDD4023DFB67DBA5B58 /* [CP] Copy Pods Resources */ = {
@@ -356,10 +362,10 @@
 			files = (
 				04F846971EA0D55C00F922D2 /* ExampleList.swift in Sources */,
 				04A36C131E909C7D00A3B26F /* AppDelegate.swift in Sources */,
-				047099511EA8852300857315 /* ParallaxContainerViewController.swift in Sources */,
-				04F846951EA0D4F000F922D2 /* ReuseContainerViewController.swift in Sources */,
 				04A36C121E909C7900A3B26F /* ViewController.swift in Sources */,
-				047099531EA8857000857315 /* ContainerViewController.swift in Sources */,
+				045AD1E71F208626008A9375 /* TestPageImageView.swift in Sources */,
+				045AD1E51F2085BE008A9375 /* TestPageViewController.swift in Sources */,
+				045AD1DF1F20849A008A9375 /* GuidePageViewController.swift in Sources */,
 				04C279D51EADB337003299BA /* BaseContainerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -499,7 +505,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xwjack.Demo.PageKit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xwjack.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -515,7 +521,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xwjack.Demo.PageKit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xwjack.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

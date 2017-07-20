@@ -2,9 +2,9 @@
 
 ![Xcode 8.3+](https://img.shields.io/badge/Xcode-8.3%2B-blue.svg)
 ![iOS 8.0+](https://img.shields.io/badge/iOS-8.0%2B-blue.svg)
-![Swift 3.1+](https://img.shields.io/badge/Swift-3.0%2B-orange.svg)
+![Swift 3.0+](https://img.shields.io/badge/Swift-3.0%2B-orange.svg)
 ![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-brightgreen.svg)
-![pod](https://img.shields.io/badge/pod-v0.2.0-brightgreen.svg)
+[![Version](https://img.shields.io/cocoapods/v/PageKit.svg?style=flat)](https://cocoapods.org/pods/PageKit)
 
 ## Overview
 
@@ -48,46 +48,51 @@ $ brew install carthage
 To integrate PageKit into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "XWJACK/PageKit" ~> 0.2.0
+github "XWJACK/PageKit" ~> 0.2.1
 ```
 
 Run `carthage update` to build the framework and drag the built `PageKit.framework` into your Xcode project.
 
 ## Usage
 
-### Reuse Container
+### ReuseContainer
 
-#### Create and set
+#### GuidePage: ReuseContainer
 
-Same with using table view
-
-```swift
-let container = ReuseContainer()
-container.register(UIImageView.self)
-container.register(UIViewController.self)
-// container.register(UIView.self, forPageReuseIdentifier: "UIView")
-container.dataSource = self
-```
-> Suggest that set reuseIdentifier with auto. Default is class name.
-
-#### Implement ReuseContainerDataSource
+Using same with `UITableView`.
 
 ```swift
-func numberOfPages() -> Int {
-    return 10
-}
+class GuidePageViewController: UIViewController, GuidePageDatasource {
 
-func container(_ container: ReuseContainer, pageForIndexAt index: Int) -> Page {
-    if let page = container.dequeueReusablePage(withIdentifier: UIImageView.reuseIdentifier) as? UIImageView {
-        /// do some thing
-        return page
-    } else if let page = container.dequeueReusablePage(withIdentifier: UIViewController.reuseIdentifier) as? UIViewController {
-        /// do some thing
-        return page
-    } else {
-        let view = UIView()
-        /// do some thing
-        return view
+    let guidePage = GuidePage()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        guidePage.dataSource = self
+        guidePage.register(TestPageImageView.self)
+        guidePage.register(TestPageViewController.self)
+        
+        view.addSubview(guidePage)
+        guidePage.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+    }
+    func numberOfPages() -> Int {
+        return 5
+    }
+    
+    func guidePage(_ guidePage: GuidePage, pageForIndexAt index: Int) -> Page {
+        if index % 2 == 0, let page = guidePage.dequeueReusablePage(withIdentifier: TestPageImageView.reuseIdentifier) as? UIImageView {
+            page.image = #imageLiteral(resourceName: "origin_background0")
+            return page
+        } else if let page = guidePage.dequeueReusablePage(withIdentifier: TestPageViewController.reuseIdentifier) as? TestPageViewController {
+            return page
+        } else {
+            let view = UIImageView()
+            view.backgroundColor = .red
+            return view
+        }
     }
 }
 ```
