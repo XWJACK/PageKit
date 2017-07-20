@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = "PageKit"
-  s.version = "0.2.0"
+  s.version = "0.2.1"
   s.license = { :type => "MIT", :file => "LICENSE" }
   s.summary = "Page Library"
   s.homepage = "https://github.com/XWJACK/PageKit"
