@@ -23,16 +23,30 @@
 
 import UIKit
 
+/// Delegate for guide page.
 public protocol GuidePageDatasource: class {
+    
+    /// Asks for number of pages.
+    ///
+    /// - Returns: Total number of page.
     func numberOfPages() -> Int
+    
+    /// Asks for Page.
+    ///
+    /// - Parameters:
+    ///   - guidePage: GuidePage.
+    ///   - index: Page index.
+    /// - Returns: Page.
     func guidePage(_ guidePage: GuidePage, pageForIndexAt index: Int) -> Page
 }
 
 /// Guide page with system page control.
 open class GuidePage: ReuseContainer {
     
+    /// Data source
     open weak var dataSource: GuidePageDatasource? = nil
     
+    /// System page control.
     open let pageControl = UIPageControl()
     
     public override init(frame: CGRect) {
