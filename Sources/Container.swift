@@ -39,11 +39,11 @@ open class Container: UIView, UIScrollViewDelegate {
     open var contentInset: UIEdgeInsets = .zero
     
     /// ContentSize for container
-    open var contentSize: CGSize { return CGSize(width: scrollView.frame.width * numberOfPages.cgfloat,
+    open var contentSize: CGSize { return CGSize(width: scrollView.frame.width * CGFloat(numberOfPages),
                                                  height: scrollView.frame.height) }
     
     /// Total pages number
-    open private(set) var numberOfPages: Int = 0
+    public final private(set) var numberOfPages: Int = 0
     
     //MARK: - Super function
     
@@ -76,8 +76,8 @@ open class Container: UIView, UIScrollViewDelegate {
     ///
     /// Same with using table view
     open func reloadData() {
-        resetContainer()
         numberOfPages = reloadNumberOfPages()
+        resetContainer()
         scrollView.contentSize = contentSize
     }
     
@@ -288,7 +288,7 @@ open class Container: UIView, UIScrollViewDelegate {
     /// - Parameter forPageAtIndex: Index
     /// - Returns: Frame for page
     open func frame(forPageAtIndex index: Int) -> CGRect {
-        return CGRect(x: scrollView.frame.width * index.cgfloat,
+        return CGRect(x: scrollView.frame.width * CGFloat(index),
                       y: 0,
                       width: scrollView.frame.width,
                       height: scrollView.frame.height)
