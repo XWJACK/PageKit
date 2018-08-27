@@ -48,7 +48,7 @@ $ brew install carthage
 To integrate PageKit into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "XWJACK/PageKit" ~> 0.2.1
+github "XWJACK/PageKit"
 ```
 
 Run `carthage update` to build the framework and drag the built `PageKit.framework` into your Xcode project.
