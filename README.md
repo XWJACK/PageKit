@@ -4,7 +4,7 @@
 ![iOS 8.0+](https://img.shields.io/badge/iOS-8.0%2B-blue.svg)
 ![Swift 3.0+](https://img.shields.io/badge/Swift-3.0%2B-orange.svg)
 ![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-brightgreen.svg)
-[![Version](https://img.shields.io/cocoapods/v/PageKit.svg?style=flat)](https://cocoapods.org/pods/PageKit)
+![CocosPod compatible](https://img.shields.io/badge/CocosPod-compatible-brightgreen.svg)
 
 ## Overview
 
@@ -48,7 +48,7 @@ $ brew install carthage
 To integrate PageKit into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "XWJACK/PageKit" ~> 0.2.1
+github "XWJACK/PageKit"
 ```
 
 Run `carthage update` to build the framework and drag the built `PageKit.framework` into your Xcode project.

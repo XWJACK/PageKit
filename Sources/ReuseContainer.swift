@@ -31,7 +31,7 @@ open class ReuseContainer: Container {
     /// Aleardy registed pages
     private var registedPages: [String: Page.Type] = [:]
     /// Reusable pages
-    private var reuseablePages: [String: Page] = [:]
+    private var reuseablePages: [String: [Page]] = [:]
     /// Visible pages
     private var visiblePages: [Page?] = []
     
@@ -83,7 +83,7 @@ open class ReuseContainer: Container {
     /// - Parameter identifier: Page.reuse
     /// - Returns: Page with identifier, nil if not register page
     public final func dequeueReusablePage(withIdentifier identifier: String) -> Page {
-        return reuseablePages[identifier] ?? registedPages[identifier]!.init()
+        return reuseablePages[identifier] == nil ? registedPages[identifier]!.init() : reuseablePages[identifier]!.popLast()!
     }
     
     //MARK: - Override function
@@ -122,7 +122,7 @@ open class ReuseContainer: Container {
     ///   - index: Index for old page
     open override func remove(oldPage page: Page, withIndex index: Int) {
         super.remove(oldPage: page, withIndex: index)
-        reuseablePages[page.reuseIdentifier] = page
+        reuseablePages[page.reuseIdentifier]?.append(page)
         visiblePages[index] = nil
     }
     

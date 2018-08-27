@@ -25,7 +25,7 @@ import UIKit
 
 open class CycleContainer: ReuseContainer {
     
-    open override var contentSize: CGSize { return CGSize(width: scrollView.frame.width * numberOfPages.cgfloat * 2,
+    open override var contentSize: CGSize { return CGSize(width: scrollView.frame.width * CGFloat(numberOfPages) * 2,
                                                           height: scrollView.frame.height) }
     private var realIndex: Int = 0
     

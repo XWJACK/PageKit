@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = "PageKit"
-  s.version = "0.2.1"
+  s.version = "0.2.2"
   s.license = { :type => "MIT", :file => "LICENSE" }
   s.summary = "Page Library"
   s.homepage = "https://github.com/XWJACK/PageKit"
@@ -13,5 +13,5 @@ Pod::Spec.new do |s|
   s.public_header_files = ["Sources/PageKit.h"]
 
   s.requires_arc = true
-  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '3.0' }
+  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '3.3' }
 end
